@@ -1,0 +1,23 @@
+{
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    120
+  ],
+  "github.copilot.chat.generateTests.codeLens": true,
+  "github.copilot.chat.testGeneration.instructions": [
+    {
+      "file": ".github/copilot-instructions/copilot-test-instructions.md"
+    }
+  ],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/copilot-instructions/copilot-commit-instructions.md"
+    }
+  ],
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  }
+}
