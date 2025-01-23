@@ -2,18 +2,18 @@
 using System.CommandLine.Invocation;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using SpeechToTextCli.Commands;
+using SpeechToTextCli.Application.Commands;
 
-namespace SpeechToTextCli.Extensions;
+namespace SpeechToTextCli.DependencyInjection;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
         services.AddSingleton<ICommandHandler, GenerateSrtCommand>();
         services.AddSingleton<ICommandHandler, GenerateTranslatedSrtCommand>();
 
-        services.AddSingleton<RootCommand>(provider =>
+        services.AddSingleton(provider =>
         {
             var rootCommand = new RootCommand("Speech to text API CLI");
 
@@ -25,7 +25,10 @@ public static class ServiceCollectionExtensions
                 if (commandProperty != null)
                 {
                     var command = commandProperty.GetValue(commandHandler);
-                    if (command is Command c) rootCommand.AddCommand(c);
+                    if (command is Command c)
+                    {
+                        rootCommand.AddCommand(c);
+                    }
                 }
             }
 

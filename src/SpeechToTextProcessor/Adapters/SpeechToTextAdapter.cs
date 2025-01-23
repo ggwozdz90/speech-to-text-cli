@@ -1,22 +1,20 @@
-﻿namespace SpeechToTextProcessor.Adapters;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public interface ISpeechToTextAdapter
-{
-    Task<string> TranscribeAsync(string filePath);
-    Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage);
-}
+namespace SpeechToTextProcessor.Adapters;
 
-public class SpeechToTextAdapter : ISpeechToTextAdapter
+[SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+    Justification = "Instantiated by dependency injection container.")]
+internal sealed class SpeechToTextAdapter : ISpeechToTextAdapter
 {
     public async Task<string> TranscribeAsync(string filePath)
     {
-        await Task.Delay(1000);
+        await Task.Delay(1000).ConfigureAwait(false);
         return "SRT path";
     }
 
     public async Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage)
     {
-        await Task.Delay(1000);
+        await Task.Delay(1000).ConfigureAwait(false);
         return "Translated SRT path";
     }
 }

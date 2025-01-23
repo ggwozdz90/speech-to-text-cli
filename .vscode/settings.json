@@ -1,4 +1,9 @@
 {
+  "files.exclude": {
+    "**/.vs": true,
+    "**/bin": true,
+    "**/obj": true
+  },
   "editor.formatOnSave": true,
   "editor.rulers": [
     120

@@ -2,11 +2,12 @@
 using System.CommandLine.Invocation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Threading;
 using SpeechToTextProcessor.Adapters;
 
-namespace SpeechToTextCli.Commands;
+namespace SpeechToTextCli.Application.Commands;
 
-public class GenerateTranslatedSrtCommand : ICommandHandler
+internal sealed class GenerateTranslatedSrtCommand : ICommandHandler
 {
     private readonly IConfiguration _configuration;
     private readonly Option<FileInfo?> _fileOption;
@@ -25,7 +26,7 @@ public class GenerateTranslatedSrtCommand : ICommandHandler
         _fileOption.AddAlias("-f");
         Command = new Command("generate-translated-srt", "Generate translated SRT subtitles from audio file")
         {
-            _fileOption
+            _fileOption,
         };
         Command.AddAlias("gts");
         Command.Handler = this;
@@ -35,7 +36,9 @@ public class GenerateTranslatedSrtCommand : ICommandHandler
 
     public int Invoke(InvocationContext context)
     {
-        return InvokeAsync(context).GetAwaiter().GetResult();
+        using var taskContext = new JoinableTaskContext();
+        var taskFactory = new JoinableTaskFactory(taskContext);
+        return taskFactory.Run(async () => await InvokeAsync(context).ConfigureAwait(false));
     }
 
     public async Task<int> InvokeAsync(InvocationContext context)
@@ -56,9 +59,9 @@ public class GenerateTranslatedSrtCommand : ICommandHandler
             return 1;
         }
 
-        _logger.LogInformation($"Generating translated SRT for file: {file.FullName}");
-        var srtFilePath = await _speechToTextAdapter.TranscribeAndTranslateAsync(file.FullName, targetLanguage);
-        _logger.LogInformation($"Translated SRT file generated: {srtFilePath}");
+        _logger.LogInformation("Generating translated SRT for file: {FullName}", file.FullName);
+        var srtFilePath = await _speechToTextAdapter.TranscribeAndTranslateAsync(file.FullName, targetLanguage).ConfigureAwait(false);
+        _logger.LogInformation("Translated SRT file generated: {SrtFilePath}", srtFilePath);
 
         return 0;
     }

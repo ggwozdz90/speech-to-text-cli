@@ -1,11 +1,12 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Threading;
 using SpeechToTextProcessor.Adapters;
 
-namespace SpeechToTextCli.Commands;
+namespace SpeechToTextCli.Application.Commands;
 
-public class GenerateSrtCommand : ICommandHandler
+internal sealed class GenerateSrtCommand : ICommandHandler
 {
     private readonly Option<FileInfo?> _fileOption;
     private readonly ILogger<GenerateSrtCommand> _logger;
@@ -21,10 +22,7 @@ public class GenerateSrtCommand : ICommandHandler
             "The audio file to transcribe.");
         _fileOption.AddAlias("-f");
 
-        Command = new Command("generate-srt", "Generate SRT subtitles from audio file")
-        {
-            _fileOption
-        };
+        Command = new Command("generate-srt", "Generate SRT subtitles from audio file") { _fileOption };
         Command.AddAlias("gs");
 
         Command.Handler = this;
@@ -34,7 +32,9 @@ public class GenerateSrtCommand : ICommandHandler
 
     public int Invoke(InvocationContext context)
     {
-        return InvokeAsync(context).GetAwaiter().GetResult();
+        using var taskContext = new JoinableTaskContext();
+        var taskFactory = new JoinableTaskFactory(taskContext);
+        return taskFactory.Run(async () => await InvokeAsync(context).ConfigureAwait(false));
     }
 
     public async Task<int> InvokeAsync(InvocationContext context)
@@ -47,9 +47,9 @@ public class GenerateSrtCommand : ICommandHandler
             return 1;
         }
 
-        _logger.LogInformation($"Generating SRT for file: {file.FullName}");
-        var srtFilePath = await _speechToTextAdapter.TranscribeAsync(file.FullName);
-        _logger.LogInformation($"SRT file generated: {srtFilePath}");
+        _logger.LogInformation("Generating SRT for file: {FullName}", file.FullName);
+        var srtFilePath = await _speechToTextAdapter.TranscribeAsync(file.FullName).ConfigureAwait(false);
+        _logger.LogInformation("SRT file generated: {SrtFilePath}", srtFilePath);
 
         return 0;
     }

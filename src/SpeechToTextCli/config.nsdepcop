@@ -1,0 +1,10 @@
+﻿<NsDepCopConfig InheritanceDepth="2">
+    <!-- Allow the Program.cs (global namespace) to reference the DependencyInjection namespace -->
+    <Allowed From="." To="?.DependencyInjection" />
+
+    <!-- Allow the Program.cs (global namespace) to reference the Logging namespace -->
+    <Allowed From="." To="?.Infrastructure.Logging" />
+
+    <!-- Allow the Commands namespace to reference external adapters namespace -->
+    <Allowed From="?.Application.Commands" To="?.Adapters" />
+</NsDepCopConfig>

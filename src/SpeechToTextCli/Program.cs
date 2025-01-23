@@ -1,7 +1,33 @@
 ﻿using System.CommandLine;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SpeechToTextCli.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SpeechToTextCli.DependencyInjection;
+using SpeechToTextCli.Infrastructure.Logging;
+using SpeechToTextProcessor.DependencyInjection;
 
-var host = HostBuilderFactory.CreateHostBuilder(args).Build();
+using var host = CreateHostBuilder(args).Build();
 var rootCommand = host.Services.GetRequiredService<RootCommand>();
-await rootCommand.InvokeAsync(args);
+await rootCommand.InvokeAsync(args).ConfigureAwait(false);
+return 0;
+
+static IHostBuilder CreateHostBuilder(string[] args)
+{
+    return Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((_, config) =>
+        {
+            config.AddJsonFile("appsettings.json", false, true);
+        })
+        .ConfigureLogging((context, logging) =>
+        {
+            logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+            logging.AddConsoleLogger(context.Configuration);
+        })
+        .ConfigureServices((context, services) =>
+        {
+            services.AddLogging();
+            services.AddSpeechToTextAdapter();
+            services.AddCommands();
+        });
+}
