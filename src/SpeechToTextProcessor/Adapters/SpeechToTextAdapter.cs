@@ -1,9 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace SpeechToTextProcessor.Adapters;
 
-namespace SpeechToTextProcessor.Adapters;
-
-[SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
-    Justification = "Instantiated by dependency injection container.")]
 internal sealed class SpeechToTextAdapter : ISpeechToTextAdapter
 {
     public async Task<string> TranscribeAsync(string filePath)

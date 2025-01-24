@@ -1,35 +1,27 @@
 ﻿using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using SpeechToTextCli.Application.Commands;
+using SpeechToTextCli.Application.UseCases;
+using SpeechToTextCli.Presentation.Commands;
 
 namespace SpeechToTextCli.DependencyInjection;
 
 internal static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCommands(this IServiceCollection services)
+    public static IServiceCollection AddInternalDependencies(this IServiceCollection services)
     {
-        services.AddSingleton<ICommandHandler, GenerateSrtCommand>();
-        services.AddSingleton<ICommandHandler, GenerateTranslatedSrtCommand>();
+        services.AddSingleton<IApplicationCommand, GenerateSrtCommand>();
+        services.AddSingleton<IApplicationCommand, GenerateTranslatedSrtCommand>();
+
+        services.AddSingleton<IGenerateSrtUseCase, GenerateSrtUseCase>();
+        services.AddSingleton<IGenerateTranslatedSrtUseCase, GenerateTranslatedSrtUseCase>();
 
         services.AddSingleton(provider =>
         {
             var rootCommand = new RootCommand("Speech to text API CLI");
 
-            foreach (var commandHandler in provider.GetServices<ICommandHandler>())
+            foreach (var command in provider.GetServices<IApplicationCommand>().OfType<Command>())
             {
-                var commandProperty = commandHandler.GetType()
-                    .GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
-
-                if (commandProperty != null)
-                {
-                    var command = commandProperty.GetValue(commandHandler);
-                    if (command is Command c)
-                    {
-                        rootCommand.AddCommand(c);
-                    }
-                }
+                rootCommand.AddCommand(command);
             }
 
             return rootCommand;

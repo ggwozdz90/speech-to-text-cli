@@ -16,7 +16,7 @@ charset = utf-8-bom
 
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
-indent_size = 2
+indent_size = 4
 
 # Xml config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
@@ -72,7 +72,7 @@ dotnet_naming_style.non_private_static_field_style.capitalization = pascal_case
 # Non-private readonly fields are PascalCase
 dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.symbols = non_private_readonly_fields
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_readonly_field_style
+dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.non_private_readonly_fields.applicable_kinds = field
 dotnet_naming_symbols.non_private_readonly_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
@@ -83,7 +83,7 @@ dotnet_naming_style.non_private_readonly_field_style.capitalization = pascal_cas
 # Constants are PascalCase
 dotnet_naming_rule.constants_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
-dotnet_naming_rule.constants_should_be_pascal_case.style = constant_style
+dotnet_naming_rule.constants_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.constants.applicable_kinds = field, local
 dotnet_naming_symbols.constants.required_modifiers = const
@@ -123,7 +123,7 @@ dotnet_naming_style.camel_case_style.capitalization = camel_case
 # Local functions are PascalCase
 dotnet_naming_rule.local_functions_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.local_functions_should_be_pascal_case.symbols = local_functions
-dotnet_naming_rule.local_functions_should_be_pascal_case.style = local_function_style
+dotnet_naming_rule.local_functions_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.local_functions.applicable_kinds = local_function
 
@@ -132,11 +132,21 @@ dotnet_naming_style.local_function_style.capitalization = pascal_case
 # By default, name items with PascalCase
 dotnet_naming_rule.members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
-dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.members_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.all_members.applicable_kinds = *
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = crlf
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_namespace_match_folder = true:suggestion
 
 # IDE0035: Remove unreachable code
 dotnet_diagnostic.IDE0035.severity = warning
@@ -194,12 +204,6 @@ dotnet_diagnostic.IDE2003.severity = warning
 
 # csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
 dotnet_diagnostic.IDE2004.severity = warning
-
-# CA1848: Use the LoggerMessage delegates
-dotnet_diagnostic.CA1848.severity = none
-
-# CA1812: Internal class that is apparently never instantiated
-dotnet_diagnostic.CA1812.severity = none
 
 # CSharp code style settings:
 [*.cs]
@@ -276,3 +280,36 @@ csharp_space_between_square_brackets = false
 csharp_prefer_braces = true:silent
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+
+# CA1848: Use the LoggerMessage delegates -> Justification: Overhead of using LoggerMessage delegates is not worth it for small projects
+dotnet_diagnostic.CA1848.severity = none
+
+# CA1812: Avoid uninstantiated internal classes -> Justification: Rule does not recognize classes that are instantiated via dependency injection
+dotnet_diagnostic.CA1812.severity = none
+
+# SA1633: File should have header -> Justification: This is a style preference
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1600: Elements should be documented -> Justification: Want to document only public APIs
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1649: File name should match first type name -> Justification: Want to allow small interfaces and implementations to be in the same file.
+dotnet_diagnostic.SA1649.severity = none
+
+# MA0048: File name must match type name -> Justification: Want to allow small interfaces and implementations to be in the same file.
+dotnet_diagnostic.MA0048.severity = none
+
+# SA1101: Prefix local calls with this -> Justification: This is a style preference
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1135: Using directives for namespace should be qualified -> Justification: This is a style preference
+dotnet_diagnostic.SA1135.severity = none

@@ -1,4 +1,6 @@
 {
+  "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
+  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
   "files.exclude": {
     "**/.vs": true,
     "**/bin": true,
@@ -24,5 +26,5 @@
     "yaml": true,
     "plaintext": true,
     "markdown": true
-  }
+  },
 }

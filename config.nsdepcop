@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <NsDepCopConfig ChildCanDependOnParentImplicitly="true" CheckAssemblyDependencies="false">
-    <!--  Every assemly can reference System and Microsoft namespaces -->
+    <!--  Every assembly can reference System and Microsoft namespaces -->
     <Allowed From="*" To="System.*" />
     <Allowed From="*" To="Microsoft.*" />
 
     <!-- Allow DependencyInjection to reference all namespaces -->
     <Allowed From="?.DependencyInjection" To="*" />
+    
+    <!-- Allow Commands to reference internal use cases -->
+    <Allowed From="?.Presentation.Commands" To="?.Application.UseCases.*" />
+
+    <!-- Allow UseCases to reference external adapters -->
+    <Allowed From="?.Application.UseCases" To="?.Adapters.*" />
 </NsDepCopConfig>

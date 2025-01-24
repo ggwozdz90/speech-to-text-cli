@@ -15,19 +15,19 @@ return 0;
 static IHostBuilder CreateHostBuilder(string[] args)
 {
     return Host.CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration((_, config) =>
-        {
-            config.AddJsonFile("appsettings.json", false, true);
-        })
+        .ConfigureAppConfiguration((_, config) => config.AddJsonFile(
+            "appsettings.json",
+            optional: false,
+            reloadOnChange: true))
         .ConfigureLogging((context, logging) =>
         {
             logging.AddConfiguration(context.Configuration.GetSection("Logging"));
             logging.AddConsoleLogger(context.Configuration);
         })
-        .ConfigureServices((context, services) =>
+        .ConfigureServices((_, services) =>
         {
             services.AddLogging();
             services.AddSpeechToTextAdapter();
-            services.AddCommands();
+            services.AddInternalDependencies();
         });
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Globalization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
@@ -32,6 +33,6 @@ internal static class ConsoleLoggerExtensions
             return (T)Enum.Parse(typeof(T), value);
         }
 
-        return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
+        return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
     }
 }
