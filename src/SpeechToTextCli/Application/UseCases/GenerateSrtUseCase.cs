@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using SpeechToTextProcessor.Adapters;
 
 namespace SpeechToTextCli.Application.UseCases;
@@ -8,9 +8,7 @@ internal interface IGenerateSrtUseCase
     Task<int> InvokeAsync(FileInfo? file);
 }
 
-internal sealed class GenerateSrtUseCase(
-    ILogger<GenerateSrtUseCase> logger,
-    ISpeechToTextAdapter speechToTextAdapter)
+internal sealed class GenerateSrtUseCase(ILogger<GenerateSrtUseCase> logger, ISpeechToTextAdapter speechToTextAdapter)
     : IGenerateSrtUseCase
 {
     public async Task<int> InvokeAsync(FileInfo? file)

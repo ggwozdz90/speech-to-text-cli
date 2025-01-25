@@ -1,4 +1,4 @@
-﻿namespace SpeechToTextProcessor.Adapters;
+namespace SpeechToTextProcessor.Adapters;
 
 /// <summary>
 ///     Interface for speech-to-text adapter.

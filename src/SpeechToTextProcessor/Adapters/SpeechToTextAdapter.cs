@@ -1,4 +1,4 @@
-﻿namespace SpeechToTextProcessor.Adapters;
+namespace SpeechToTextProcessor.Adapters;
 
 internal sealed class SpeechToTextAdapter : ISpeechToTextAdapter
 {

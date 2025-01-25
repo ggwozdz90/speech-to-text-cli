@@ -1,3 +1,3 @@
-﻿namespace SpeechToTextCli.Presentation.Commands;
+namespace SpeechToTextCli.Presentation.Commands;
 
 internal interface IApplicationCommand;

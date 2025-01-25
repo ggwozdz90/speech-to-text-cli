@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SpeechToTextProcessor.Adapters;
 
@@ -12,8 +12,8 @@ internal interface IGenerateTranslatedSrtUseCase
 internal sealed class GenerateTranslatedSrtUseCase(
     ILogger<GenerateTranslatedSrtUseCase> logger,
     ISpeechToTextAdapter speechToTextAdapter,
-    IConfiguration configuration)
-    : IGenerateTranslatedSrtUseCase
+    IConfiguration configuration
+) : IGenerateTranslatedSrtUseCase
 {
     public async Task<int> InvokeAsync(FileInfo? file)
     {
@@ -32,7 +32,9 @@ internal sealed class GenerateTranslatedSrtUseCase(
         }
 
         logger.LogInformation("Generating translated SRT for file: {FullName}", file.FullName);
-        var srtFilePath = await speechToTextAdapter.TranscribeAndTranslateAsync(file.FullName, targetLanguage).ConfigureAwait(false);
+        var srtFilePath = await speechToTextAdapter
+            .TranscribeAndTranslateAsync(file.FullName, targetLanguage)
+            .ConfigureAwait(false);
         logger.LogInformation("Translated SRT file generated: {SrtFilePath}", srtFilePath);
 
         return 0;

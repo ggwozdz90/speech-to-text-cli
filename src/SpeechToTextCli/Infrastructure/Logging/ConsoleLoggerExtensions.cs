@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -11,11 +11,31 @@ internal static class ConsoleLoggerExtensions
     {
         loggingBuilder.AddSimpleConsole(options =>
         {
-            options.SingleLine = GetConfigurationValue(configuration, key: "Logging:Console:SingleLine", defaultValue: true);
-            options.IncludeScopes = GetConfigurationValue(configuration, key: "Logging:Console:IncludeScopes", defaultValue: false);
-            options.UseUtcTimestamp = GetConfigurationValue(configuration, key: "Logging:Console:UseUtcTimestamp", defaultValue: false);
-            options.TimestampFormat = GetConfigurationValue(configuration, key: "Logging:Console:TimestampFormat", defaultValue: "yyyy-MM-dd HH:mm:ss fff");
-            options.ColorBehavior = GetConfigurationValue(configuration, key: "Logging:Console:ColorBehavior", defaultValue: LoggerColorBehavior.Enabled);
+            options.SingleLine = GetConfigurationValue(
+                configuration,
+                key: "Logging:Console:SingleLine",
+                defaultValue: true
+            );
+            options.IncludeScopes = GetConfigurationValue(
+                configuration,
+                key: "Logging:Console:IncludeScopes",
+                defaultValue: false
+            );
+            options.UseUtcTimestamp = GetConfigurationValue(
+                configuration,
+                key: "Logging:Console:UseUtcTimestamp",
+                defaultValue: false
+            );
+            options.TimestampFormat = GetConfigurationValue(
+                configuration,
+                key: "Logging:Console:TimestampFormat",
+                defaultValue: "yyyy-MM-dd HH:mm:ss fff"
+            );
+            options.ColorBehavior = GetConfigurationValue(
+                configuration,
+                key: "Logging:Console:ColorBehavior",
+                defaultValue: LoggerColorBehavior.Enabled
+            );
         });
     }
 
