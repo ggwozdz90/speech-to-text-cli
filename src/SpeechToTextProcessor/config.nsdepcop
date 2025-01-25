@@ -1,1 +1,19 @@
-﻿<NsDepCopConfig InheritanceDepth="2" />
+﻿<NsDepCopConfig InheritanceDepth="2">
+    <!-- Allow Adapter Factories to reference all namespaces -->
+    <Allowed From="?.DependencyInjection" To="?.*" />
+
+    <!-- Allow Adapters to reference Use Cases -->
+    <Allowed From="?.Adapter.Adapters" To="?.Application.UseCases" />
+    
+    <!-- Allow Use Cases to reference Domain Services -->
+    <Allowed From="?.Application.UseCases" To="?.Domain.Services" />
+
+    <!-- Allow Domain Services to reference Repository Interfaces -->
+    <Allowed From="?.Domain.Services" To="?.Domain.Repositories" />
+
+    <!-- Allow Repository Implementations to reference Repository Interfaces -->
+    <Allowed From="?.Data.Repositories" To="?.Domain.Repositories" />
+
+    <!-- Allow Repository Implementations to reference Data Sources -->
+    <Allowed From="?.Data.Repositories" To="?.Data.DataSources" />
+</NsDepCopConfig>

@@ -29,8 +29,8 @@ static IHostBuilder CreateHostBuilder(string[] args)
             (_, services) =>
             {
                 services.AddLogging();
-                services.AddSpeechToTextAdapter();
                 services.AddInternalDependencies();
+                services.AddSpeechToTextProcessor();
             }
         );
 }

@@ -4,12 +4,6 @@
     <Allowed From="*" To="System.*" />
     <Allowed From="*" To="Microsoft.*" />
 
-    <!-- Allow DependencyInjection to reference all namespaces -->
+    <!-- Allow Dependency Injection to reference all namespaces -->
     <Allowed From="?.DependencyInjection" To="*" />
-    
-    <!-- Allow Commands to reference internal use cases -->
-    <Allowed From="?.Presentation.Commands" To="?.Application.UseCases.*" />
-
-    <!-- Allow UseCases to reference external adapters -->
-    <Allowed From="?.Application.UseCases" To="?.Adapters.*" />
 </NsDepCopConfig>

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SpeechToTextProcessor.Adapters;
+using SpeechToTextProcessor.Adapter.Adapters;
 
 namespace SpeechToTextCli.Application.UseCases;
 
