@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{2E6D0F7F-D978-4518-A879-5D8A9249545A}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextCli", "src\SpeechToTextCli\SpeechToTextCli.csproj", "{3FFF6E3A-E57A-4B98-BC90-C525AE32BE08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextProcessor", "src\SpeechToTextProcessor\SpeechToTextProcessor.csproj", "{32CAFAD0-09A8-4CE7-AE7F-D68285C6F90C}"

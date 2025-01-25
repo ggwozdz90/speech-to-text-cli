@@ -34,9 +34,7 @@
       "group": "pre-push-operations",
       "command": "dotnet",
       "args": [
-        "build",
-        "--verbosity",
-        "detailed"
+        "build"
       ]
     }
   ]

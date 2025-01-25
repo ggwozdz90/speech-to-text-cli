@@ -98,11 +98,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <!-- Static code analyzers to detect common mistakes or potential issues regarding threading and async coding -->
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.12.19">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <!-- A set of Roslyn analyzers related to exceptions usages -->
     <PackageReference Include="SmartanAlyzers.ExceptionAnalyzer" Version="1.0.10">
       <PrivateAssets>all</PrivateAssets>
