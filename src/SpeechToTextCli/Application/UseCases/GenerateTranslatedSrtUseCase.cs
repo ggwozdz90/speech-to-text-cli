@@ -23,7 +23,7 @@ internal sealed class GenerateTranslatedSrtUseCase(
             return 1;
         }
 
-        var targetLanguage = configuration["Translation:TargetLanguage"];
+        var targetLanguage = configuration.GetValue("Translation:TargetLanguage", string.Empty);
 
         if (string.IsNullOrWhiteSpace(targetLanguage))
         {
