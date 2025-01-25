@@ -290,16 +290,16 @@ csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
-# CA1848: Use the LoggerMessage delegates -> Justification: Overhead of using LoggerMessage delegates is not worth it for small projects
+# CA1848: Use the LoggerMessage delegates -> Justification: Overhead of using LoggerMessage delegates is not worth it for small projects.
 dotnet_diagnostic.CA1848.severity = none
 
-# CA1812: Avoid uninstantiated internal classes -> Justification: Rule does not recognize classes that are instantiated via dependency injection
+# CA1812: Avoid uninstantiated internal classes -> Justification: Rule does not recognize classes that are instantiated via dependency injection.
 dotnet_diagnostic.CA1812.severity = none
 
-# SA1633: File should have header -> Justification: This is a style preference
+# SA1633: File should have header -> Justification: This is a style preference.
 dotnet_diagnostic.SA1633.severity = none
 
-# SA1600: Elements should be documented -> Justification: Want to document only public APIs
+# SA1600: Elements should be documented -> Justification: Want to document only public APIs.
 dotnet_diagnostic.SA1600.severity = none
 
 # SA1649: File name should match first type name -> Justification: Want to allow small interfaces and implementations to be in the same file.
@@ -308,8 +308,14 @@ dotnet_diagnostic.SA1649.severity = none
 # MA0048: File name must match type name -> Justification: Want to allow small interfaces and implementations to be in the same file.
 dotnet_diagnostic.MA0048.severity = none
 
-# SA1101: Prefix local calls with this -> Justification: This is a style preference
+# SA1101: Prefix local calls with this -> Justification: This is a style preference.
 dotnet_diagnostic.SA1101.severity = none
 
-# SA1135: Using directives for namespace should be qualified -> Justification: This is a style preference
+# SA1135: Using directives for namespace should be qualified -> Justification: This is a style preference.
 dotnet_diagnostic.SA1135.severity = none
+
+# VSTHRD012: Provide JoinableTaskFactory where allowed -> Justification: Appropriate for most projects that *never* run inside a process with a main thread and `SynchronizationContext`. Examples of such applications are ASP.NET Core and console applications.
+dotnet_diagnostic.VSTHRD012.severity = none
+
+# VSTHRD003: Avoid awaiting foreign Tasks -> Justification: Appropriate for most projects that *never* run inside a process with a main thread and `SynchronizationContext`. Examples of such applications are ASP.NET Core and console applications.
+dotnet_diagnostic.VSTHRD003.severity = none

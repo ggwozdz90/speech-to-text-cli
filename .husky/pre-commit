@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo 'Validating staged files'
+
+dotnet husky run --group pre-commit-operations
+
+echo 'Completed validation of staged files'
