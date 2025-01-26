@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using SpeechToTextProcessor.Application.UseCases;
+using SpeechToTextProcessor.Domain.Exceptions;
 
 namespace SpeechToTextProcessor.Adapter.Adapters;
 
@@ -14,6 +15,9 @@ public interface ISpeechToTextAdapter
     /// <param name="filePath">The path to the audio file to be transcribed.</param>
     /// <param name="sourceLanguage">The source language of the audio in the pattern xx_XX.</param>
     /// <returns>The task result contains the transcribed text.</returns>
+    /// <exception cref="NetworkException">Thrown when an HTTP error occurs during the transcription process.</exception>
+    /// <exception cref="TranscribeException">Thrown when an error occurs during the transcription process.</exception>
+    /// <exception cref="FileAccessException">Thrown when an error occurs during file access operations.</exception>
     Task<string> TranscribeAsync(string filePath, string sourceLanguage);
 
     /// <summary>
@@ -26,12 +30,17 @@ public interface ISpeechToTextAdapter
     /// <returns>
     ///     The task result contains the transcribed and translated text.
     /// </returns>
+    /// <exception cref="NetworkException">Thrown when an HTTP error occurs during the transcription and translation process.</exception>
+    /// <exception cref="TranscribeException">Thrown when an error occurs during the transcription and translation process.</exception>
+    /// <exception cref="FileAccessException">Thrown when an error occurs during file access operations.</exception>
     Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage);
 
     /// <summary>
     ///     Checks the health of the API.
     /// </summary>
     /// <returns>The task result contains the health status.</returns>
+    /// <exception cref="NetworkException">Thrown when an HTTP error occurs during the health check process.</exception>
+    /// <exception cref="HealthCheckException">Thrown when an error occurs during the health check process.</exception>
     Task<string> HealthCheckAsync();
 }
 
@@ -44,9 +53,20 @@ internal sealed class SpeechToTextAdapter(
 {
     public async Task<string> TranscribeAsync(string filePath, string sourceLanguage)
     {
-        logger.LogInformation("Transcribe invoked with file path: {FilePath}", filePath);
+        logger.LogInformation(
+            "Transcribe invoked with file path: {FilePath} and source language: {SourceLanguage}",
+            filePath,
+            sourceLanguage
+        );
 
         var result = await transcribeFileToTextUseCase.InvokeAsync(filePath, sourceLanguage).ConfigureAwait(false);
+
+        logger.LogInformation(
+            "Transcribe completed with file path: {FilePath} and source language: {SourceLanguage} with result: {Result}",
+            filePath,
+            sourceLanguage,
+            result
+        );
 
         return result;
     }
@@ -54,8 +74,9 @@ internal sealed class SpeechToTextAdapter(
     public async Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage)
     {
         logger.LogInformation(
-            "Transcribe and translate invoked with file path: {FilePath} and target language: {TargetLanguage}",
+            "Transcribe and translate invoked with file path: {FilePath}, source language: {SourceLanguage}, and target language: {TargetLanguage}",
             filePath,
+            sourceLanguage,
             targetLanguage
         );
 
@@ -63,14 +84,24 @@ internal sealed class SpeechToTextAdapter(
             .InvokeAsync(filePath, sourceLanguage, targetLanguage)
             .ConfigureAwait(false);
 
+        logger.LogInformation(
+            "Transcribe and translate completed with file path: {FilePath}, source language: {SourceLanguage}, target language: {TargetLanguage} with result: {Result}",
+            filePath,
+            sourceLanguage,
+            targetLanguage,
+            result
+        );
+
         return result;
     }
 
     public async Task<string> HealthCheckAsync()
     {
-        logger.LogInformation("Health check invoked.");
+        logger.LogInformation("Health check invoked...");
 
         var result = await healthCheckUseCase.InvokeAsync().ConfigureAwait(false);
+
+        logger.LogInformation("Health check completed with result: {Result}", result);
 
         return result;
     }

@@ -15,7 +15,12 @@ internal sealed class TranscribeAndTranslateFileToTextUseCase(
 {
     public async Task<string> InvokeAsync(string filePath, string sourceLanguage, string targetLanguage)
     {
-        logger.LogDebug("Transcribing and translating file to text invoked from use case...");
+        logger.LogTrace(
+            "Transcribing and translating file {FilePath} from {SourceLanguage} to {TargetLanguage} invoked from use case...",
+            filePath,
+            sourceLanguage,
+            targetLanguage
+        );
 
         var result = await transcribeService
             .TranscribeAndTranslateAsync(filePath, sourceLanguage, targetLanguage)

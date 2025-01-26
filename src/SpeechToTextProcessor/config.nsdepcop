@@ -22,4 +22,7 @@
     
     <!-- Allow Data Sources and Repository Implementations to reference DTOs -->
     <Allowed From="?.Data.*" To="?.Data.DTOs" />
+
+    <!-- Allow all namespaces to reference Exceptions-->
+    <Allowed From="?.*" To="?.Domain.Exceptions" />
 </NsDepCopConfig>

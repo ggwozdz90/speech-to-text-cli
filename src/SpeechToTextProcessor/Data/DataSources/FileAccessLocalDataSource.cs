@@ -1,4 +1,6 @@
 using System.IO.Abstractions;
+using Microsoft.Extensions.Logging;
+using SpeechToTextProcessor.Domain.Exceptions;
 
 namespace SpeechToTextProcessor.Data.DataSources;
 
@@ -8,15 +10,36 @@ internal interface IFileAccessLocalDataSource
     string GetFileName(string filePath);
 }
 
-internal sealed class FileAccessLocalDataSource(IFileSystem fileSystem) : IFileAccessLocalDataSource
+internal sealed class FileAccessLocalDataSource(ILogger<FileAccessLocalDataSource> logger, IFileSystem fileSystem)
+    : IFileAccessLocalDataSource
 {
     public FileSystemStream GetFileSystemStream(string filePath)
     {
-        return fileSystem.FileStream.New(filePath, FileMode.Open);
+        logger.LogTrace("Getting file system stream for {FilePath} invoked from local data source...", filePath);
+
+        try
+        {
+            return fileSystem.FileStream.New(filePath, FileMode.Open);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to get file system stream for {FilePath} from local data source...", filePath);
+            throw new FileAccessException("Failed to get file system stream.", ex);
+        }
     }
 
     public string GetFileName(string filePath)
     {
-        return fileSystem.Path.GetFileName(filePath);
+        logger.LogTrace("Getting file name for {FilePath} invoked from local data source...", filePath);
+
+        try
+        {
+            return fileSystem.Path.GetFileName(filePath);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to get file name for {FilePath} from local data source...", filePath);
+            throw new FileAccessException("Failed to get file name.", ex);
+        }
     }
 }

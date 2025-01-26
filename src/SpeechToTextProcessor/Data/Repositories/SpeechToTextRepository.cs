@@ -2,6 +2,7 @@ using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;
 using Refit;
 using SpeechToTextProcessor.Data.DataSources;
+using SpeechToTextProcessor.Domain.Exceptions;
 using SpeechToTextProcessor.Domain.Repositories;
 
 namespace SpeechToTextProcessor.Data.Repositories;
@@ -15,7 +16,11 @@ internal sealed class SpeechToTextRepository(
 {
     public async Task<string> TranscribeAsync(string filePath, string sourceLanguage)
     {
-        logger.LogDebug("Transcribing file to text invoked from repository...");
+        logger.LogTrace(
+            "Transcribing file {FilePath} from {SourceLanguage} invoked from repository...",
+            filePath,
+            sourceLanguage
+        );
 
         FileSystemStream? fileStream = null;
 
@@ -33,18 +38,23 @@ internal sealed class SpeechToTextRepository(
         }
         catch (HttpRequestException httpEx)
         {
-            logger.LogError(httpEx, "HTTP error occurred while transcribing the file.");
-            throw;
+            logger.LogError(
+                httpEx,
+                "HTTP error occurred while transcribing the file {FilePath} from {SourceLanguage} from repository...",
+                filePath,
+                sourceLanguage
+            );
+            throw new NetworkException(httpEx);
         }
         catch (ApiException apiEx)
         {
-            logger.LogError(apiEx, "API error occurred while transcribing the file.");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while transcribing the file.");
-            throw;
+            logger.LogError(
+                apiEx,
+                "API error occurred while transcribing the file {FilePath} from {SourceLanguage} from repository...",
+                filePath,
+                sourceLanguage
+            );
+            throw new TranscribeException(apiEx);
         }
         finally
         {
@@ -57,7 +67,12 @@ internal sealed class SpeechToTextRepository(
 
     public async Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage)
     {
-        logger.LogDebug("Transcribing and translating file to text invoked from repository...");
+        logger.LogTrace(
+            "Transcribing and translating file {FilePath} from {SourceLanguage} to {TargetLanguage} invoked from repository...",
+            filePath,
+            sourceLanguage,
+            targetLanguage
+        );
 
         FileSystemStream? fileStream = null;
 
@@ -75,18 +90,25 @@ internal sealed class SpeechToTextRepository(
         }
         catch (HttpRequestException httpEx)
         {
-            logger.LogError(httpEx, "HTTP error occurred while transcribing and translating the file.");
-            throw;
+            logger.LogError(
+                httpEx,
+                "HTTP error occurred while transcribing and translating the file {FilePath} from {SourceLanguage} to {TargetLanguage} from repository...",
+                filePath,
+                sourceLanguage,
+                targetLanguage
+            );
+            throw new NetworkException(httpEx);
         }
         catch (ApiException apiEx)
         {
-            logger.LogError(apiEx, "API error occurred while transcribing and translating the file.");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while transcribing and translating the file.");
-            throw;
+            logger.LogError(
+                apiEx,
+                "API error occurred while transcribing and translating the file {FilePath} from {SourceLanguage} to {TargetLanguage} from repository...",
+                filePath,
+                sourceLanguage,
+                targetLanguage
+            );
+            throw new TranscribeException(apiEx);
         }
         finally
         {
@@ -99,7 +121,7 @@ internal sealed class SpeechToTextRepository(
 
     public async Task<string> HealthCheckAsync()
     {
-        logger.LogDebug("Health check invoked from repository...");
+        logger.LogTrace("Health check invoked from repository...");
 
         try
         {
@@ -109,18 +131,13 @@ internal sealed class SpeechToTextRepository(
         }
         catch (HttpRequestException httpEx)
         {
-            logger.LogError(httpEx, "HTTP error occurred during health check.");
-            throw;
+            logger.LogError(httpEx, "HTTP error occurred during health check from repository...");
+            throw new NetworkException(httpEx);
         }
         catch (ApiException apiEx)
         {
-            logger.LogError(apiEx, "API error occurred during health check.");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred during health check.");
-            throw;
+            logger.LogError(apiEx, "API error occurred during health check from repository...");
+            throw new HealthCheckException(apiEx);
         }
     }
 }

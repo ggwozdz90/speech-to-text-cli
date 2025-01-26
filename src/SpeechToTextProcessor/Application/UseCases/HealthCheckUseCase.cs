@@ -13,7 +13,7 @@ internal sealed class HealthCheckUseCase(ILogger<HealthCheckUseCase> logger, IHe
 {
     public async Task<string> InvokeAsync()
     {
-        logger.LogDebug("Health check invoked from use case...");
+        logger.LogTrace("Health check invoked from use case...");
 
         var result = await healthCheckService.HealthCheckAsync().ConfigureAwait(false);
 

@@ -13,9 +13,18 @@ internal sealed class HealthCheckService(
     ISpeechToTextRepository speechToTextRepository
 ) : IHealthCheckService
 {
-    public Task<string> HealthCheckAsync()
+    public async Task<string> HealthCheckAsync()
     {
-        logger.LogDebug("Health check invoked from service...");
-        return speechToTextRepository.HealthCheckAsync();
+        logger.LogTrace("Health check invoked from service...");
+
+        try
+        {
+            return await speechToTextRepository.HealthCheckAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred during health check from service...");
+            throw;
+        }
     }
 }
