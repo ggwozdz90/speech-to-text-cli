@@ -12,19 +12,21 @@ public interface ISpeechToTextAdapter
     ///     Sends a request to the API to transcribe the audio from the specified file and generates an SRT file with the text.
     /// </summary>
     /// <param name="filePath">The path to the audio file to be transcribed.</param>
+    /// <param name="sourceLanguage">The source language of the audio in the pattern xx_XX.</param>
     /// <returns>The task result contains the transcribed text.</returns>
-    Task<string> TranscribeAsync(string filePath);
+    Task<string> TranscribeAsync(string filePath, string sourceLanguage);
 
     /// <summary>
     ///     Sends a request to the API to transcribe the audio from the specified file and translates the detected text to the specified language.
     ///     The language should be provided in the pattern xx_XX.
     /// </summary>
     /// <param name="filePath">The path to the audio file to be transcribed.</param>
+    /// <param name="sourceLanguage">The source language of the audio in the pattern xx_XX.</param>
     /// <param name="targetLanguage">The target language for translation in the pattern xx_XX.</param>
     /// <returns>
     ///     The task result contains the transcribed and translated text.
     /// </returns>
-    Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage);
+    Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage);
 
     /// <summary>
     ///     Checks the health of the API.
@@ -40,16 +42,16 @@ internal sealed class SpeechToTextAdapter(
     IHealthCheckUseCase healthCheckUseCase
 ) : ISpeechToTextAdapter
 {
-    public async Task<string> TranscribeAsync(string filePath)
+    public async Task<string> TranscribeAsync(string filePath, string sourceLanguage)
     {
         logger.LogInformation("Transcribe invoked with file path: {FilePath}", filePath);
 
-        var result = await transcribeFileToTextUseCase.InvokeAsync(filePath).ConfigureAwait(false);
+        var result = await transcribeFileToTextUseCase.InvokeAsync(filePath, sourceLanguage).ConfigureAwait(false);
 
         return result;
     }
 
-    public async Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage)
+    public async Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage)
     {
         logger.LogInformation(
             "Transcribe and translate invoked with file path: {FilePath} and target language: {TargetLanguage}",
@@ -58,7 +60,7 @@ internal sealed class SpeechToTextAdapter(
         );
 
         var result = await transcribeAndTranslateFileToTextUseCase
-            .InvokeAsync(filePath, targetLanguage)
+            .InvokeAsync(filePath, sourceLanguage, targetLanguage)
             .ConfigureAwait(false);
 
         return result;

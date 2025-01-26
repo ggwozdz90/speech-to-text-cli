@@ -1,3 +1,5 @@
 Microsoft.Extensions.Logging
 Refit
 Microsoft.Extensions.DependencyInjection
+Refit.HttpClientFactory
+System.IO.Abstractions

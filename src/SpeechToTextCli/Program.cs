@@ -26,11 +26,11 @@ static IHostBuilder CreateHostBuilder(string[] args)
             }
         )
         .ConfigureServices(
-            (_, services) =>
+            (context, services) =>
             {
                 services.AddLogging();
                 services.AddInternalDependencies();
-                services.AddSpeechToTextProcessor();
+                services.AddSpeechToTextProcessor(context.Configuration);
             }
         );
 }

@@ -16,4 +16,7 @@
 
     <!-- Allow Repository Implementations to reference Data Sources -->
     <Allowed From="?.Data.Repositories" To="?.Data.DataSources" />
+
+    <!-- Allow Data Sources to reference Refit -->
+    <Allowed From="?.Data.*" To="Refit" />
 </NsDepCopConfig>

@@ -1,21 +1,9 @@
-using Microsoft.Extensions.Logging;
+using Refit;
 
 namespace SpeechToTextProcessor.Data.DataSources;
 
 internal interface IHealthCheckRemoteDataSource
 {
+    [Get("/healthcheck")]
     Task<string> HealthCheckAsync();
-}
-
-internal sealed class HealthCheckRemoteDataSource(ILogger<HealthCheckRemoteDataSource> logger)
-    : IHealthCheckRemoteDataSource
-{
-    public async Task<string> HealthCheckAsync()
-    {
-        logger.LogDebug("Health check invoked from repository...");
-
-        await Task.Delay(1000).ConfigureAwait(false);
-
-        return "OK";
-    }
 }

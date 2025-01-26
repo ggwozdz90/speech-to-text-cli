@@ -1,31 +1,24 @@
-using Microsoft.Extensions.Logging;
+using Refit;
 
 namespace SpeechToTextProcessor.Data.DataSources;
 
 internal interface ITranscribeRemoteDataSource
 {
-    Task<string> TranscribeAsync(string filePath);
-    Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage);
-}
+    [Multipart]
+    [Post("/transcribe/srt")]
+    Task<string> TranscribeAsync(
+        [AliasAs("file")] StreamPart file,
+        [AliasAs("source_language")] string sourceLanguage,
+        [AliasAs("transcription_parameters")] string? transcriptionParameters = null
+    );
 
-internal sealed class TranscribeRemoteDataSource(ILogger<TranscribeRemoteDataSource> logger)
-    : ITranscribeRemoteDataSource
-{
-    public async Task<string> TranscribeAsync(string filePath)
-    {
-        logger.LogDebug("Transcribing file to text invoked from data source...");
-
-        await Task.Delay(1000).ConfigureAwait(false);
-
-        return "Transcribed text from file";
-    }
-
-    public async Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage)
-    {
-        logger.LogDebug("Transcribing and translating file to text invoked from data source...");
-
-        await Task.Delay(1000).ConfigureAwait(false);
-
-        return "Transcribed and translated text from file";
-    }
+    [Multipart]
+    [Post("/transcribe/srt")]
+    Task<string> TranscribeAndTranslateAsync(
+        [AliasAs("file")] StreamPart file,
+        [AliasAs("source_language")] string sourceLanguage,
+        [AliasAs("target_language")] string? targetLanguage = null,
+        [AliasAs("transcription_parameters")] string? transcriptionParameters = null,
+        [AliasAs("translation_parameters")] string? translationParameters = null
+    );
 }

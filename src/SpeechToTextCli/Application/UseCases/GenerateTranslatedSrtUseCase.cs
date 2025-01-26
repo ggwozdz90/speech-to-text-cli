@@ -6,7 +6,7 @@ namespace SpeechToTextCli.Application.UseCases;
 
 internal interface IGenerateTranslatedSrtUseCase
 {
-    Task<int> InvokeAsync(FileInfo? file);
+    Task<int> InvokeAsync(FileInfo? file, string sourceLanguage);
 }
 
 internal sealed class GenerateTranslatedSrtUseCase(
@@ -15,7 +15,7 @@ internal sealed class GenerateTranslatedSrtUseCase(
     IConfiguration configuration
 ) : IGenerateTranslatedSrtUseCase
 {
-    public async Task<int> InvokeAsync(FileInfo? file)
+    public async Task<int> InvokeAsync(FileInfo? file, string sourceLanguage)
     {
         if (file == null)
         {
@@ -31,9 +31,17 @@ internal sealed class GenerateTranslatedSrtUseCase(
             return 1;
         }
 
+        var isHealthy = await speechToTextAdapter.HealthCheckAsync().ConfigureAwait(false);
+
+        if (!string.Equals(isHealthy, "OK", StringComparison.OrdinalIgnoreCase))
+        {
+            logger.LogError("The speech-to-text API is not healthy.");
+            return 1;
+        }
+
         logger.LogInformation("Generating translated SRT for file: {FullName}", file.FullName);
         var srtFilePath = await speechToTextAdapter
-            .TranscribeAndTranslateAsync(file.FullName, targetLanguage)
+            .TranscribeAndTranslateAsync(file.FullName, sourceLanguage, targetLanguage)
             .ConfigureAwait(false);
         logger.LogInformation("Translated SRT file generated: {SrtFilePath}", srtFilePath);
 

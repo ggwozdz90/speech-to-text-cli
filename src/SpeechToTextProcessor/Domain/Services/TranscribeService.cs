@@ -5,8 +5,8 @@ namespace SpeechToTextProcessor.Domain.Services;
 
 internal interface ITranscribeService
 {
-    Task<string> TranscribeAsync(string filePath);
-    Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage);
+    Task<string> TranscribeAsync(string filePath, string sourceLanguage);
+    Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage);
 }
 
 internal sealed class TranscribeService(
@@ -14,15 +14,15 @@ internal sealed class TranscribeService(
     ISpeechToTextRepository speechToTextRepository
 ) : ITranscribeService
 {
-    public Task<string> TranscribeAsync(string filePath)
+    public Task<string> TranscribeAsync(string filePath, string sourceLanguage)
     {
         logger.LogDebug("Transcribing file to text invoked from service...");
-        return speechToTextRepository.TranscribeAsync(filePath);
+        return speechToTextRepository.TranscribeAsync(filePath, sourceLanguage);
     }
 
-    public Task<string> TranscribeAndTranslateAsync(string filePath, string targetLanguage)
+    public Task<string> TranscribeAndTranslateAsync(string filePath, string sourceLanguage, string targetLanguage)
     {
         logger.LogDebug("Transcribing and translating file to text invoked from service...");
-        return speechToTextRepository.TranscribeAndTranslateAsync(filePath, targetLanguage);
+        return speechToTextRepository.TranscribeAndTranslateAsync(filePath, sourceLanguage, targetLanguage);
     }
 }

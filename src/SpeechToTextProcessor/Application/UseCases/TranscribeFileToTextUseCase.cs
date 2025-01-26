@@ -5,7 +5,7 @@ namespace SpeechToTextProcessor.Application.UseCases;
 
 internal interface ITranscribeFileToTextUseCase
 {
-    Task<string> InvokeAsync(string filePath);
+    Task<string> InvokeAsync(string filePath, string sourceLanguage);
 }
 
 internal sealed class TranscribeFileToTextUseCase(
@@ -13,11 +13,11 @@ internal sealed class TranscribeFileToTextUseCase(
     ITranscribeService transcribeService
 ) : ITranscribeFileToTextUseCase
 {
-    public async Task<string> InvokeAsync(string filePath)
+    public async Task<string> InvokeAsync(string filePath, string sourceLanguage)
     {
         logger.LogDebug("Transcribing file to text invoked from use case...");
 
-        var result = await transcribeService.TranscribeAsync(filePath).ConfigureAwait(false);
+        var result = await transcribeService.TranscribeAsync(filePath, sourceLanguage).ConfigureAwait(false);
 
         return result;
     }

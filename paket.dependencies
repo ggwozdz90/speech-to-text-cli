@@ -8,4 +8,6 @@ nuget Microsoft.Extensions.Logging 9.0.1
 nuget Microsoft.Extensions.Options 9.0.1
 nuget Microsoft.VisualStudio.Threading 17.12.19
 nuget Refit
+nuget Refit.HttpClientFactory
 nuget System.CommandLine 2.0.0-beta4.22272.1 beta4
+nuget System.IO.Abstractions
