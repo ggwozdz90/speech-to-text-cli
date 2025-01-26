@@ -103,9 +103,9 @@ internal sealed class SpeechToTextRepository(
 
         try
         {
-            var result = await healthCheckRemoteDataSource.HealthCheckAsync().ConfigureAwait(false);
+            var dto = await healthCheckRemoteDataSource.HealthCheckAsync().ConfigureAwait(false);
 
-            return result;
+            return dto.Status;
         }
         catch (HttpRequestException httpEx)
         {

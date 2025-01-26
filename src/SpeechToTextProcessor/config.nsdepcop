@@ -19,4 +19,7 @@
 
     <!-- Allow Data Sources to reference Refit -->
     <Allowed From="?.Data.*" To="Refit" />
+    
+    <!-- Allow Data Sources and Repository Implementations to reference DTOs -->
+    <Allowed From="?.Data.*" To="?.Data.DTOs" />
 </NsDepCopConfig>
