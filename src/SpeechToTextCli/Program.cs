@@ -9,8 +9,8 @@ using SpeechToTextProcessor.DependencyInjection;
 
 using var host = CreateHostBuilder(args).Build();
 var rootCommand = host.Services.GetRequiredService<RootCommand>();
-await rootCommand.InvokeAsync(args).ConfigureAwait(false);
-return 0;
+var result = await rootCommand.InvokeAsync(args).ConfigureAwait(false);
+return result;
 
 static IHostBuilder CreateHostBuilder(string[] args)
 {

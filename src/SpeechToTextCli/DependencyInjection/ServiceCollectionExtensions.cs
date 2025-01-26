@@ -1,6 +1,9 @@
 using System.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using SpeechToTextCli.Application.UseCases;
+using SpeechToTextCli.Data.Repositories;
+using SpeechToTextCli.Domain.Repositories;
+using SpeechToTextCli.Domain.Services;
 using SpeechToTextCli.Presentation.Commands;
 
 namespace SpeechToTextCli.DependencyInjection;
@@ -14,6 +17,11 @@ internal static class ServiceCollectionExtensions
 
         services.AddSingleton<IGenerateSrtUseCase, GenerateSrtUseCase>();
         services.AddSingleton<IGenerateTranslatedSrtUseCase, GenerateTranslatedSrtUseCase>();
+
+        services.AddSingleton<ISrtGenerationService, SrtGenerationService>();
+
+        services.AddSingleton<IFileRepository, FileRepository>();
+        services.AddSingleton<ISrtGenerationRepository, SrtGenerationRepository>();
 
         services.AddSingleton(provider =>
         {

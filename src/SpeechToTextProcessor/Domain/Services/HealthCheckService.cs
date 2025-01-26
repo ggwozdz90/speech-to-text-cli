@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using SpeechToTextProcessor.Domain.Exceptions;
 using SpeechToTextProcessor.Domain.Repositories;
 
 namespace SpeechToTextProcessor.Domain.Services;
@@ -20,6 +21,10 @@ internal sealed class HealthCheckService(
         try
         {
             return await speechToTextRepository.HealthCheckAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is NetworkException or HealthCheckException)
+        {
+            throw;
         }
         catch (Exception ex)
         {

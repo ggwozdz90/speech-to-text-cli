@@ -1,50 +1,54 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SpeechToTextProcessor.Adapter.Adapters;
+using SpeechToTextCli.Domain.ErrorCodes;
+using SpeechToTextCli.Domain.Services;
+using SpeechToTextProcessor.Domain.Exceptions;
 
 namespace SpeechToTextCli.Application.UseCases;
 
 internal interface IGenerateTranslatedSrtUseCase
 {
-    Task<int> InvokeAsync(FileInfo? file, string sourceLanguage);
+    Task<int> InvokeAsync(FileInfo file, string sourceLanguage, string targetLanguage);
 }
 
 internal sealed class GenerateTranslatedSrtUseCase(
     ILogger<GenerateTranslatedSrtUseCase> logger,
-    ISpeechToTextAdapter speechToTextAdapter,
-    IConfiguration configuration
+    ISrtGenerationService translatedSrtGenerationService
 ) : IGenerateTranslatedSrtUseCase
 {
-    public async Task<int> InvokeAsync(FileInfo? file, string sourceLanguage)
+    public async Task<int> InvokeAsync(FileInfo file, string sourceLanguage, string targetLanguage)
     {
-        if (file == null)
+        try
         {
-            logger.LogError("No file provided.");
-            return 1;
+            await translatedSrtGenerationService
+                .GenerateTranslatedSrtAsync(file.FullName, sourceLanguage, targetLanguage)
+                .ConfigureAwait(false);
+
+            return ErrorCode.Success;
         }
-
-        var targetLanguage = configuration.GetValue("Translation:TargetLanguage", string.Empty);
-
-        if (string.IsNullOrWhiteSpace(targetLanguage))
+        catch (NetworkException ex)
         {
-            logger.LogError("No target language provided.");
-            return 1;
+            logger.LogError(ex, "Network error occurred.");
+            return ErrorCode.NetworkError;
         }
-
-        var isHealthy = await speechToTextAdapter.HealthCheckAsync().ConfigureAwait(false);
-
-        if (!string.Equals(isHealthy, "OK", StringComparison.OrdinalIgnoreCase))
+        catch (FileAccessException ex)
         {
-            logger.LogError("The speech-to-text API is not healthy.");
-            return 1;
+            logger.LogError(ex, "File access error occurred.");
+            return ErrorCode.FileAccessError;
         }
-
-        logger.LogInformation("Generating translated SRT for file: {FullName}", file.FullName);
-        var srtFilePath = await speechToTextAdapter
-            .TranscribeAndTranslateAsync(file.FullName, sourceLanguage, targetLanguage)
-            .ConfigureAwait(false);
-        logger.LogInformation("Translated SRT file generated: {SrtFilePath}", srtFilePath);
-
-        return 0;
+        catch (HealthCheckException ex)
+        {
+            logger.LogError(ex, "Health check error occurred.");
+            return ErrorCode.HealthCheckError;
+        }
+        catch (TranscribeException ex)
+        {
+            logger.LogError(ex, "Transcription error occurred.");
+            return ErrorCode.TranscribeError;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An unexpected error occurred.");
+            throw;
+        }
     }
 }

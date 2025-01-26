@@ -6,4 +6,7 @@
 
     <!-- Allow Dependency Injection to reference all namespaces -->
     <Allowed From="?.DependencyInjection" To="*" />
+
+    <!-- Allow all namespaces to reference exceptions -->
+    <Allowed From="*" To="?.Domain.Exceptions" />
 </NsDepCopConfig>

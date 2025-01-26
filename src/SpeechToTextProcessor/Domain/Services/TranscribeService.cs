@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using SpeechToTextProcessor.Domain.Exceptions;
 using SpeechToTextProcessor.Domain.Repositories;
 
 namespace SpeechToTextProcessor.Domain.Services;
@@ -26,6 +27,10 @@ internal sealed class TranscribeService(
         {
             return await speechToTextRepository.TranscribeAsync(filePath, sourceLanguage).ConfigureAwait(false);
         }
+        catch (Exception ex) when (ex is NetworkException or TranscribeException or FileAccessException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             logger.LogError(
@@ -52,6 +57,10 @@ internal sealed class TranscribeService(
             return await speechToTextRepository
                 .TranscribeAndTranslateAsync(filePath, sourceLanguage, targetLanguage)
                 .ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is NetworkException or TranscribeException or FileAccessException)
+        {
+            throw;
         }
         catch (Exception ex)
         {

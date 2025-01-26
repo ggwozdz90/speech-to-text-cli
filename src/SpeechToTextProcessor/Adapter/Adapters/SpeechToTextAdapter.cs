@@ -38,7 +38,7 @@ public interface ISpeechToTextAdapter
     /// <summary>
     ///     Checks the health of the API.
     /// </summary>
-    /// <returns>The task result contains the health status.</returns>
+    /// <returns>The task result contains the health status, which will be "OK" if the API is healthy.</returns>
     /// <exception cref="NetworkException">Thrown when an HTTP error occurs during the health check process.</exception>
     /// <exception cref="HealthCheckException">Thrown when an error occurs during the health check process.</exception>
     Task<string> HealthCheckAsync();

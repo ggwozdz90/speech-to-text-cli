@@ -1,38 +1,50 @@
 using Microsoft.Extensions.Logging;
-using SpeechToTextProcessor.Adapter.Adapters;
+using SpeechToTextCli.Domain.ErrorCodes;
+using SpeechToTextCli.Domain.Services;
+using SpeechToTextProcessor.Domain.Exceptions;
 
 namespace SpeechToTextCli.Application.UseCases;
 
 internal interface IGenerateSrtUseCase
 {
-    Task<int> InvokeAsync(FileInfo? file, string sourceLanguage);
+    Task<int> InvokeAsync(FileInfo file, string sourceLanguage);
 }
 
-internal sealed class GenerateSrtUseCase(ILogger<GenerateSrtUseCase> logger, ISpeechToTextAdapter speechToTextAdapter)
+internal sealed class GenerateSrtUseCase(ILogger<GenerateSrtUseCase> logger, ISrtGenerationService srtGenerationService)
     : IGenerateSrtUseCase
 {
-    public async Task<int> InvokeAsync(FileInfo? file, string sourceLanguage)
+    public async Task<int> InvokeAsync(FileInfo file, string sourceLanguage)
     {
-        if (file == null)
+        try
         {
-            logger.LogError("No file provided.");
-            return 1;
+            await srtGenerationService.GenerateSrtAsync(file.FullName, sourceLanguage).ConfigureAwait(false);
+
+            return ErrorCode.Success;
         }
-
-        var isHealthy = await speechToTextAdapter.HealthCheckAsync().ConfigureAwait(false);
-
-        if (!string.Equals(isHealthy, "OK", StringComparison.OrdinalIgnoreCase))
+        catch (NetworkException ex)
         {
-            logger.LogError("The speech-to-text API is not healthy.");
-            return 1;
+            logger.LogError(ex, "Network error occurred.");
+            return ErrorCode.NetworkError;
         }
-
-        logger.LogInformation("Generating SRT for file: {FullName}", file.FullName);
-        var srtFilePath = await speechToTextAdapter
-            .TranscribeAsync(file.FullName, sourceLanguage)
-            .ConfigureAwait(false);
-        logger.LogInformation("SRT file generated: {SrtFilePath}", srtFilePath);
-
-        return 0;
+        catch (FileAccessException ex)
+        {
+            logger.LogError(ex, "File access error occurred.");
+            return ErrorCode.FileAccessError;
+        }
+        catch (HealthCheckException ex)
+        {
+            logger.LogError(ex, "Health check error occurred.");
+            return ErrorCode.HealthCheckError;
+        }
+        catch (TranscribeException ex)
+        {
+            logger.LogError(ex, "Transcription error occurred.");
+            return ErrorCode.TranscribeError;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An unexpected error occurred.");
+            throw;
+        }
     }
 }

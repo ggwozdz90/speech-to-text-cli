@@ -328,6 +328,9 @@ dotnet_diagnostic.SA1504.severity = none
 dotnet_diagnostic.SA1515.severity = none
 dotnet_diagnostic.SA1516.severity = none
 
+# MA0038: Make method static (deprecated, use CA1822 instead) -> Justification: Rule is deprecated.
+dotnet_diagnostic.MA0038.severity = none
+
 # VSTHRD012: Provide JoinableTaskFactory where allowed -> Justification: Appropriate for most projects that *never* run inside a process with a main thread and `SynchronizationContext`. Examples of such applications are ASP.NET Core and console applications.
 dotnet_diagnostic.VSTHRD012.severity = none
 
