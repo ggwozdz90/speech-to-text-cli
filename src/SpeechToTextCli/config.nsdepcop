@@ -3,9 +3,12 @@
     <Allowed From="." To="?.DependencyInjection" />
     <Allowed From="." To="?.Infrastructure.Logging" />
 
-    <!-- Allow Commands to reference Use Cases and Validators -->
+    <!-- Allow Commands to reference Use Cases and CommandOptions -->
     <Allowed From="?.Presentation.Commands" To="?.Application.UseCases" />
-    <Allowed From="?.Presentation.Commands" To="?.Presentation.Validators" />
+    <Allowed From="?.Presentation.Commands" To="?.Presentation.CommandOptions" />
+
+    <!-- Allow CommandOptions to reference Validators -->
+    <Allowed From="?.Presentation.CommandOptions" To="?.Presentation.Validators" />
 
     <!-- Allow Use Cases to reference Domain Services -->
     <Allowed From="?.Application.UseCases" To="?.Domain.Services" />

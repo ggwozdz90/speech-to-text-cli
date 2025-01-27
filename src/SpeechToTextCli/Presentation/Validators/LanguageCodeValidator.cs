@@ -1,8 +1,13 @@
 namespace SpeechToTextCli.Presentation.Validators;
 
-internal static class LanguageCodeValidator
+internal interface ILanguageCodeValidator
 {
-    public static bool IsValid(string languageCode)
+    bool IsValid(string languageCode);
+}
+
+internal sealed class LanguageCodeValidator : ILanguageCodeValidator
+{
+    public bool IsValid(string languageCode)
     {
         return languageCode.Length == 5
             && char.IsLower(languageCode[0])
