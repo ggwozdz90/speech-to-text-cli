@@ -1,7 +1,7 @@
 ﻿<NsDepCopConfig InheritanceDepth="2">
     <!-- Allow the Program.cs (global namespace) to reference the DependencyInjection and Logging namespace -->
-    <Allowed From="." To="?.DependencyInjection" />
-    <Allowed From="." To="?.Infrastructure.Logging" />
+    <Allowed From="SpeechToTextCli" To="?.DependencyInjection" />
+    <Allowed From="SpeechToTextCli" To="?.Infrastructure.Logging" />
 
     <!-- Allow Commands to reference Use Cases and CommandOptions -->
     <Allowed From="?.Presentation.Commands" To="?.Application.UseCases" />

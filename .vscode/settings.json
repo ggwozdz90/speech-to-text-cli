@@ -4,6 +4,7 @@
   },
   "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
   "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
+  "dotnet-test-explorer.testProjectPath": "Tests",
   "files.exclude": {
     "**/.vs": true,
     "**/bin": true,

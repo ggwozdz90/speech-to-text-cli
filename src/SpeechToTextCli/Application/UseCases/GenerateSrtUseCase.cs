@@ -1,3 +1,4 @@
+using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;
 using SpeechToTextCli.Domain.ErrorCodes;
 using SpeechToTextCli.Domain.Services;
@@ -7,13 +8,13 @@ namespace SpeechToTextCli.Application.UseCases;
 
 internal interface IGenerateSrtUseCase
 {
-    Task<int> InvokeAsync(FileInfo file, string sourceLanguage);
+    Task<int> InvokeAsync(IFileInfo file, string sourceLanguage);
 }
 
 internal sealed class GenerateSrtUseCase(ILogger<GenerateSrtUseCase> logger, ISrtGenerationService srtGenerationService)
     : IGenerateSrtUseCase
 {
-    public async Task<int> InvokeAsync(FileInfo file, string sourceLanguage)
+    public async Task<int> InvokeAsync(IFileInfo file, string sourceLanguage)
     {
         try
         {

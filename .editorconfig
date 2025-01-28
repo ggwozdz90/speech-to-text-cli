@@ -22,7 +22,10 @@ max_line_length = 120
 
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
-indent_size = 4
+charset = utf-8
+indent_style = space
+indent_size = 2
+tab_width = 2
 
 # Xml config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
@@ -336,3 +339,6 @@ dotnet_diagnostic.VSTHRD012.severity = none
 
 # VSTHRD003: Avoid awaiting foreign Tasks -> Justification: Appropriate for most projects that *never* run inside a process with a main thread and `SynchronizationContext`. Examples of such applications are ASP.NET Core and console applications.
 dotnet_diagnostic.VSTHRD003.severity = none
+
+# IDE1006: Naming rule violation: Missing prefix: '_' -> Justification: This is a style preference.
+dotnet_diagnostic.IDE1006.severity = none
