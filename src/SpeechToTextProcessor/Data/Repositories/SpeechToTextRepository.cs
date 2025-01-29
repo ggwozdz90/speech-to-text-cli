@@ -1,4 +1,3 @@
-using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;
 using Refit;
 using SpeechToTextProcessor.Data.DataSources;
@@ -22,7 +21,7 @@ internal sealed class SpeechToTextRepository(
             sourceLanguage
         );
 
-        FileSystemStream? fileStream = null;
+        Stream? fileStream = null;
 
         try
         {
@@ -74,7 +73,7 @@ internal sealed class SpeechToTextRepository(
             targetLanguage
         );
 
-        FileSystemStream? fileStream = null;
+        Stream? fileStream = null;
 
         try
         {

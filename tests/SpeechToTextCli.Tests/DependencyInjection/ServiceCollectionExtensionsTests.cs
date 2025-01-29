@@ -36,8 +36,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterCommandOptions()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -50,8 +49,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterApplicationCommands()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -70,8 +68,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterValidators()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -82,8 +79,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterUseCases()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -95,8 +91,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterServices()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -107,8 +102,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterRepositories()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -120,8 +114,7 @@ internal sealed class ServiceCollectionExtensionsTests
     [Test]
     public void AddInternalDependencies_ShouldRegisterRootCommand()
     {
-        // Given
-        // When
+        // Given, When
         services.AddInternalDependencies();
         using var serviceProvider = services.BuildServiceProvider();
 

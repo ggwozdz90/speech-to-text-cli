@@ -6,14 +6,14 @@ namespace SpeechToTextProcessor.Data.DataSources;
 
 internal interface IFileAccessLocalDataSource
 {
-    FileSystemStream GetFileSystemStream(string filePath);
+    Stream GetFileSystemStream(string filePath);
     string GetFileName(string filePath);
 }
 
 internal sealed class FileAccessLocalDataSource(ILogger<FileAccessLocalDataSource> logger, IFileSystem fileSystem)
     : IFileAccessLocalDataSource
 {
-    public FileSystemStream GetFileSystemStream(string filePath)
+    public Stream GetFileSystemStream(string filePath)
     {
         logger.LogTrace("Getting file system stream for {FilePath} invoked from local data source...", filePath);
 

@@ -25,8 +25,7 @@ internal sealed class CommandSourceLanguageOptionTests
     [Test]
     public void CommandSourceLanguageOption_ShouldHaveCorrectName()
     {
-        // When
-        // Given
+        // Given, When
         var name = commandSourceLanguageOption.Name;
 
         // Then
