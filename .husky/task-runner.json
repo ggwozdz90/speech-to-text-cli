@@ -36,6 +36,17 @@
       "args": [
         "build"
       ]
+    },
+    {
+      "name": "commitlint",
+      "group": "commit-msg-operations",
+      "command": "npx",
+      "args": [
+        "commitlint",
+        "--edit",
+        "${args}",
+        "--verbose"
+      ]
     }
   ]
 }
