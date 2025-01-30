@@ -13,19 +13,24 @@
         "--severity",
         "info"
       ],
-      "include": [
-        "**/*.cs"
-      ]
+      "include": ["**/*.cs"]
     },
     {
       "name": "csharpier",
       "group": "pre-commit-operations",
       "command": "dotnet",
+      "args": ["csharpier", ".", "--check", "--loglevel", "debug"]
+    },
+    {
+      "name": "prettier",
+      "group": "pre-commit-operations",
+      "command": "npx",
       "args": [
-        "csharpier",
-        ".",
+        "prettier",
+        "**/*",
+        "!**/*.{md,cs,csproj,sln,nsdepcop,references,props,dependencies,targets}",
         "--check",
-        "--loglevel",
+        "--log-level",
         "debug"
       ]
     },
@@ -33,28 +38,19 @@
       "name": "dotnet build",
       "group": "pre-push-operations",
       "command": "dotnet",
-      "args": [
-        "build"
-      ]
+      "args": ["build"]
     },
     {
       "name": "dotnet test",
       "group": "pre-push-operations",
       "command": "dotnet",
-      "args": [
-        "test"
-      ]
+      "args": ["test"]
     },
     {
       "name": "commitlint",
       "group": "commit-msg-operations",
       "command": "npx",
-      "args": [
-        "commitlint",
-        "--edit",
-        "${args}",
-        "--verbose"
-      ]
+      "args": ["commitlint", "--edit", "${args}", "--verbose"]
     }
   ]
 }
