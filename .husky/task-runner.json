@@ -27,11 +27,28 @@
       "command": "npx",
       "args": [
         "prettier",
-        "**/*",
-        "!**/*.{md,cs,csproj,sln,nsdepcop,references,props,dependencies,targets}",
+        "**/*.{json,yaml}",
         "--check",
         "--log-level",
         "debug"
+      ]
+    },
+    {
+      "name": "markdownlint",
+      "group": "pre-commit-operations",
+      "command": "npx",
+      "args": [
+        "markdownlint",
+        ".",
+        "--dot",
+        "--ignore",
+        "node_modules",
+        "--ignore",
+        "packages",
+        "--ignore",
+        "CHANGELOG.md",
+        "--disable",
+        "MD013"
       ]
     },
     {
