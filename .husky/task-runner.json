@@ -52,6 +52,12 @@
       ]
     },
     {
+      "name": "cspell",
+      "group": "pre-commit-operations",
+      "command": "npx",
+      "args": ["cspell", "**/*.{md,txt,cs,csproj,json,yaml}"]
+    },
+    {
       "name": "dotnet build",
       "group": "pre-push-operations",
       "command": "dotnet",

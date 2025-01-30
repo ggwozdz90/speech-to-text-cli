@@ -83,7 +83,7 @@ internal sealed class SrtGenerationServiceTests
         const string filePath = "testfile.wav";
         const string sourceLanguage = "en";
         const string targetLanguage = "fr";
-        const string srtContent = "Texte transcrit et traduit";
+        const string srtContent = "Transcribed and translated text";
         const string srtFilePath = "testfile.srt";
 
         srtGenerationRepository.HealthCheckAsync().Returns(Task.FromResult("OK"));

@@ -29,7 +29,7 @@ internal static class Program
     {
         return Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration(
-                (_, config) => config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                (_, config) => config.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
             )
             .ConfigureLogging(
                 (context, logging) =>

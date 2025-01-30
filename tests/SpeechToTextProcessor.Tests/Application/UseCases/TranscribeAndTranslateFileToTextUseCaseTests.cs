@@ -13,14 +13,14 @@ internal sealed class TranscribeAndTranslateFileToTextUseCaseTests
 {
     private ILogger<TranscribeAndTranslateFileToTextUseCase> logger = null!;
     private ITranscribeService transcribeService = null!;
-    private TranscribeAndTranslateFileToTextUseCase usecase = null!;
+    private TranscribeAndTranslateFileToTextUseCase useCase = null!;
 
     [SetUp]
     public void SetUp()
     {
         logger = Substitute.For<ILogger<TranscribeAndTranslateFileToTextUseCase>>();
         transcribeService = Substitute.For<ITranscribeService>();
-        usecase = new TranscribeAndTranslateFileToTextUseCase(logger, transcribeService);
+        useCase = new TranscribeAndTranslateFileToTextUseCase(logger, transcribeService);
     }
 
     [Test]
@@ -36,7 +36,7 @@ internal sealed class TranscribeAndTranslateFileToTextUseCaseTests
             .Returns(Task.FromResult(expectedText));
 
         // When
-        var result = await usecase.InvokeAsync(filePath, sourceLanguage, targetLanguage).ConfigureAwait(false);
+        var result = await useCase.InvokeAsync(filePath, sourceLanguage, targetLanguage).ConfigureAwait(false);
 
         // Then
         result.Should().Be(expectedText);
@@ -59,7 +59,7 @@ internal sealed class TranscribeAndTranslateFileToTextUseCaseTests
 
         // When
         Func<Task> act = async () =>
-            await usecase.InvokeAsync(filePath, sourceLanguage, targetLanguage).ConfigureAwait(false);
+            await useCase.InvokeAsync(filePath, sourceLanguage, targetLanguage).ConfigureAwait(false);
 
         // Then
         await act.Should()

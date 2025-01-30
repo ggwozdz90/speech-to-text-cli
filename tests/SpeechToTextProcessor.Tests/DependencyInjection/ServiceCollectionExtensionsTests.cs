@@ -23,9 +23,9 @@ internal sealed class ServiceCollectionExtensionsTests
     public void Setup()
     {
         configuration = Substitute.For<IConfiguration>();
-        var sonfigurationSection = Substitute.For<IConfigurationSection>();
-        sonfigurationSection.Value.Returns("http://localhost:5000");
-        configuration.GetSection("SpeechToText:BaseAddress").Returns(sonfigurationSection);
+        var configurationSection = Substitute.For<IConfigurationSection>();
+        configurationSection.Value.Returns("http://localhost:5000");
+        configuration.GetSection("SpeechToText:BaseAddress").Returns(configurationSection);
         services = new ServiceCollection();
         services.AddSingleton(configuration);
     }

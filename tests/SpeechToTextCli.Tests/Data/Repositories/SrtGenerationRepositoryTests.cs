@@ -56,7 +56,7 @@ internal sealed class SrtGenerationRepositoryTests
         const string filePath = "testfile.wav";
         const string sourceLanguage = "en";
         const string targetLanguage = "fr";
-        const string expectedTranslation = "Texte transcrit et traduit";
+        const string expectedTranslation = "Translated text";
         speechToTextAdapter
             .TranscribeAndTranslateAsync(filePath, sourceLanguage, targetLanguage)
             .Returns(Task.FromResult(expectedTranslation));
