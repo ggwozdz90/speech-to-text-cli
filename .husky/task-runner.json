@@ -38,6 +38,14 @@
       ]
     },
     {
+      "name": "dotnet test",
+      "group": "pre-push-operations",
+      "command": "dotnet",
+      "args": [
+        "test"
+      ]
+    },
+    {
       "name": "commitlint",
       "group": "commit-msg-operations",
       "command": "npx",
