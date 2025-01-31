@@ -19,7 +19,7 @@
       "name": "csharpier",
       "group": "pre-commit-operations",
       "command": "dotnet",
-      "args": ["csharpier", ".", "--check", "--loglevel", "debug"]
+      "args": ["csharpier", ".", "--loglevel", "debug"]
     },
     {
       "name": "prettier",
@@ -28,7 +28,7 @@
       "args": [
         "prettier",
         "**/*.{json,yaml}",
-        "--check",
+        "--write",
         "--log-level",
         "debug"
       ]
