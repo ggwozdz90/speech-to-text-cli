@@ -1,0 +1,55 @@
+name: check
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.x
+
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Validate commit messages
+        run: npx commitlint --from=origin/main --to=HEAD
+
+      - name: Format .NET code
+        run: dotnet format --verify-no-changes --verbosity detailed --severity info
+
+      - name: Run CSharpier
+        run: dotnet csharpier . --loglevel debug
+
+      - name: Run Prettier
+        run: npx prettier "**/*.{json,yaml}" --check --log-level debug
+
+      - name: Run Markdownlint
+        run: npx markdownlint . --dot --ignore node_modules --ignore packages --ignore CHANGELOG.md --disable MD013
+
+      - name: Run CSpell
+        run: npx cspell "**/*.{md,txt,cs,csproj,json,yaml}"
+
+      - name: Build
+        run: dotnet build
+
+      - name: Test
+        run: dotnet test

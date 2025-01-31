@@ -1,0 +1,6 @@
+# .gitattributes
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Force CRLF line endings for all text files
+* text eol=crlf
