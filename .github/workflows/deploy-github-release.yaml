@@ -1,0 +1,45 @@
+name: deploy-github-release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Create EXE
+        run: |
+          dotnet publish src/SpeechToTextCli/SpeechToTextCli.csproj \
+            --configuration Release \
+            --runtime win-x64 \
+            --self-contained true \
+            /p:PublishSingleFile=true \
+            /p:UseAppHost=true \
+            /p:PublishDir=../../publish/ \
+            /p:DebugType=none
+
+      - name: Zip EXE
+        run: |
+          mkdir -p release
+          zip -r release/speech-to-text-cli-exe.zip publish/
+
+      - name: Deploy GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          token: ${{ secrets.REPOSITORY_TOKEN }}
+          body_path: CHANGELOG.md
