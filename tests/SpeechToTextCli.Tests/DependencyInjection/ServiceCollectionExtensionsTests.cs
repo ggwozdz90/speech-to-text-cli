@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
+using SpeechToTextApiClient.Adapter.Adapters;
 using SpeechToTextCli.Application.UseCases;
 using SpeechToTextCli.DependencyInjection;
 using SpeechToTextCli.Domain.Repositories;
@@ -12,7 +13,6 @@ using SpeechToTextCli.Domain.Services;
 using SpeechToTextCli.Presentation.CommandOptions;
 using SpeechToTextCli.Presentation.Commands;
 using SpeechToTextCli.Presentation.Validators;
-using SpeechToTextProcessor.Adapter.Adapters;
 
 namespace SpeechToTextCli.Tests.DependencyInjection;
 

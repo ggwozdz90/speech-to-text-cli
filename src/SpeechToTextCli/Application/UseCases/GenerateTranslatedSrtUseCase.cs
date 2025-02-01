@@ -1,8 +1,8 @@
 using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;
+using SpeechToTextApiClient.Domain.Exceptions;
 using SpeechToTextCli.Domain.ErrorCodes;
 using SpeechToTextCli.Domain.Services;
-using SpeechToTextProcessor.Domain.Exceptions;
 
 namespace SpeechToTextCli.Application.UseCases;
 

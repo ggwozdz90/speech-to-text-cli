@@ -45,7 +45,7 @@ using NUnit.Framework;
 using SpeechToTextCli.Application.UseCases;
 using SpeechToTextCli.Domain.ErrorCodes;
 using SpeechToTextCli.Domain.Services;
-using SpeechToTextProcessor.Domain.Exceptions;
+using SpeechToTextApiClient.Domain.Exceptions;
 
 namespace SpeechToTextCli.Tests.Application.UseCases;
 

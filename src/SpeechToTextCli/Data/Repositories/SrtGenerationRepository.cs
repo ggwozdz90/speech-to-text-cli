@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
+using SpeechToTextApiClient.Adapter.Adapters;
 using SpeechToTextCli.Domain.Repositories;
-using SpeechToTextProcessor.Adapter.Adapters;
 
 namespace SpeechToTextCli.Data.Repositories;
 

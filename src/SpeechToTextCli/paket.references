@@ -5,3 +5,4 @@ Microsoft.Extensions.Logging
 Microsoft.Extensions.Options
 Microsoft.VisualStudio.Threading
 System.CommandLine
+SpeechToTextApiClient

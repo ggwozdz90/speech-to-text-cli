@@ -2,8 +2,8 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
+using SpeechToTextApiClient.Adapter.Adapters;
 using SpeechToTextCli.Data.Repositories;
-using SpeechToTextProcessor.Adapter.Adapters;
 
 namespace SpeechToTextCli.Tests.Data.Repositories;
 
