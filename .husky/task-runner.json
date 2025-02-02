@@ -1,0 +1,79 @@
+{
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "dotnet format",
+      "group": "pre-commit-operations",
+      "command": "dotnet",
+      "args": [
+        "format",
+        "--verify-no-changes",
+        "--verbosity",
+        "detailed",
+        "--severity",
+        "info"
+      ],
+      "include": ["**/*.cs"]
+    },
+    {
+      "name": "csharpier",
+      "group": "pre-commit-operations",
+      "command": "dotnet",
+      "args": ["csharpier", ".", "--loglevel", "debug"]
+    },
+    {
+      "name": "prettier",
+      "group": "pre-commit-operations",
+      "command": "npx",
+      "args": [
+        "prettier",
+        "**/*.{json,yaml}",
+        "--write",
+        "--log-level",
+        "debug"
+      ]
+    },
+    {
+      "name": "markdownlint",
+      "group": "pre-commit-operations",
+      "command": "npx",
+      "args": [
+        "markdownlint",
+        ".",
+        "--dot",
+        "--ignore",
+        "node_modules",
+        "--ignore",
+        "packages",
+        "--ignore",
+        "CHANGELOG.md",
+        "--disable",
+        "MD013"
+      ]
+    },
+    {
+      "name": "cspell",
+      "group": "pre-commit-operations",
+      "command": "npx",
+      "args": ["cspell", "**/*.{md,txt,cs,csproj,json,yaml}"]
+    },
+    {
+      "name": "dotnet build",
+      "group": "pre-push-operations",
+      "command": "dotnet",
+      "args": ["build"]
+    },
+    {
+      "name": "dotnet test",
+      "group": "pre-push-operations",
+      "command": "dotnet",
+      "args": ["test"]
+    },
+    {
+      "name": "commitlint",
+      "group": "commit-msg-operations",
+      "command": "npx",
+      "args": ["commitlint", "--edit", "${args}", "--verbose"]
+    }
+  ]
+}

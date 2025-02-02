@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "id": "cspell-project-config",
+  "name": "cspell Project Config",
+  "language": "en",
+  "words": [],
+  "maxNumberOfProblems": 1000,
+  "ignorePaths": [
+    "node_modules",
+    "packages",
+    "cspell.json",
+    "**/bin/**",
+    "**/obj/**"
+  ],
+  "flagWords": [
+    "blacklist: denylist",
+    "blackList: denyList",
+    "whitelist: allowlist"
+  ],
+  "dictionaryDefinitions": [],
+  "dictionaries": ["workspace"],
+  "noConfigSearch": true,
+  "ignoreWords": ["paket", "IDISP", "healthcheck"]
+}

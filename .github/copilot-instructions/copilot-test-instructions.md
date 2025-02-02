@@ -36,36 +36,72 @@
 ## Example Test Code
 
 ```csharp
-using NUnit.Framework;
-using NSubstitute;
+using System.IO.Abstractions;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using NUnit.Framework;
+using SpeechToTextCli.Application.UseCases;
+using SpeechToTextCli.Domain.ErrorCodes;
+using SpeechToTextCli.Domain.Services;
+using SpeechToTextApiClient.Domain.Exceptions;
 
-namespace Tests
+namespace SpeechToTextCli.Tests.Application.UseCases;
+
+[TestFixture]
+internal sealed class GenerateSrtUseCaseTest
 {
-    public class ExampleServiceTests
+    private ILogger<GenerateSrtUseCase> logger;
+    private ISrtGenerationService srtGenerationService;
+    private IFileInfo file;
+    private GenerateSrtUseCase useCase;
+
+    [SetUp]
+    public void Setup()
     {
-        private IExampleDependency _exampleDependency;
-        private ExampleService _exampleService;
+        logger = Substitute.For<ILogger<GenerateSrtUseCase>>();
+        srtGenerationService = Substitute.For<ISrtGenerationService>();
+        file = Substitute.For<IFileInfo>();
+        file.FullName.Returns("testfile.txt");
+        useCase = new GenerateSrtUseCase(logger, srtGenerationService);
+    }
 
-        [SetUp]
-        public void Setup()
-        {
-            _exampleDependency = Substitute.For<IExampleDependency>();
-            _exampleService = new ExampleService(_exampleDependency);
-        }
+    [Test]
+    public async Task InvokeAsync_ShouldReturnSuccess_WhenNoExceptionOccursAsync()
+    {
+        // Given
+        const string SourceLanguage = "en";
 
-        [Test]
-        public void Test_ExampleService_ReturnsExpectedResult()
-        {
-            // Given
-            var expectedValue = "expected result";
-            _exampleDependency.GetValue().Returns(expectedValue);
+        // When
+        var result = await useCase.InvokeAsync(file, SourceLanguage).ConfigureAwait(false);
 
-            // When
-            var result = _exampleService.GetResult();
+        // Then
+        result.Should().Be(ErrorCode.Success);
+        await srtGenerationService.Received(1).GenerateSrtAsync(file.FullName, SourceLanguage).ConfigureAwait(false);
+    }
 
-            // Then
-            result.Should().Be(expectedValue);
-        }
+   [Test]
+    public async Task InvokeAsync_ShouldReturnNetworkError_WhenNetworkExceptionOccursAsync()
+    {
+        // Given
+        const string SourceLanguage = "en";
+        srtGenerationService.GenerateSrtAsync(file.FullName, SourceLanguage).ThrowsAsync(new NetworkException());
+
+        // When
+        var result = await useCase.InvokeAsync(file, SourceLanguage).ConfigureAwait(false);
+
+        // Then
+        result.Should().Be(ErrorCode.NetworkError);
+        logger
+            .Received(1)
+            .Log(
+                Arg.Is<LogLevel>(level => level == LogLevel.Error),
+                Arg.Any<EventId>(),
+                Arg.Is<object>(entry => entry.ToString() == "Network error occurred."),
+                Arg.Any<NetworkException>(),
+                Arg.Any<Func<object?, Exception?, string>>()
+            );
     }
 }
+```

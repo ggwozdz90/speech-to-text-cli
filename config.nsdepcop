@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NsDepCopConfig ChildCanDependOnParentImplicitly="true" CheckAssemblyDependencies="false">
+    <!--  Every assembly can reference System and Microsoft namespaces -->
+    <Allowed From="*" To="System.*" />
+    <Allowed From="*" To="Microsoft.*" />
+
+    <!-- Allow Dependency Injection to reference all namespaces -->
+    <Allowed From="?.DependencyInjection" To="*" />
+
+    <!-- Allow all namespaces to reference exceptions -->
+    <Allowed From="*" To="?.Domain.Exceptions" />
+</NsDepCopConfig>

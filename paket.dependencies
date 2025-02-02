@@ -1,0 +1,20 @@
+source https://api.nuget.org/v3/index.json
+source https://nuget.pkg.github.com/ggwozdz90/index.json username: "%GITHUB_USERNAME%" password: "%GITHUB_TOKEN%" authtype: "basic"
+
+storage: none
+nuget Microsoft.Extensions.Configuration
+nuget Microsoft.Extensions.DependencyInjection
+nuget Microsoft.Extensions.Hosting
+nuget Microsoft.Extensions.Logging
+nuget Microsoft.Extensions.Options
+nuget Microsoft.VisualStudio.Threading
+nuget Refit
+nuget Refit.HttpClientFactory
+nuget System.CommandLine prerelease
+nuget System.IO.Abstractions
+nuget FluentAssertions
+nuget Microsoft.NET.Test.Sdk
+nuget NSubstitute
+nuget NUnit
+nuget NUnit3TestAdapter
+nuget SpeechToTextApiClient

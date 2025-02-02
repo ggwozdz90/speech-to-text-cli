@@ -1,0 +1,27 @@
+﻿<NsDepCopConfig InheritanceDepth="2">
+    <!-- Allow the Program.cs (global namespace) to reference the DependencyInjection and Logging namespace -->
+    <Allowed From="SpeechToTextCli" To="?.DependencyInjection" />
+    <Allowed From="SpeechToTextCli" To="?.Infrastructure.Logging" />
+
+    <!-- Allow Commands to reference Use Cases and CommandOptions -->
+    <Allowed From="?.Presentation.Commands" To="?.Application.UseCases" />
+    <Allowed From="?.Presentation.Commands" To="?.Presentation.CommandOptions" />
+
+    <!-- Allow CommandOptions to reference Validators -->
+    <Allowed From="?.Presentation.CommandOptions" To="?.Presentation.Validators" />
+
+    <!-- Allow Use Cases to reference Domain Services -->
+    <Allowed From="?.Application.UseCases" To="?.Domain.Services" />
+
+    <!-- Allow Use Cases to reference Error Codes -->
+    <Allowed From="?.Application.UseCases" To="?.Domain.ErrorCodes" />
+
+    <!-- Allow Domain Services to reference Repository Interfaces -->
+    <Allowed From="?.Domain.Services" To="?.Domain.Repositories" />
+
+    <!-- Allow Repository Implementations to reference Repository Interfaces -->
+    <Allowed From="?.Data.Repositories" To="?.Domain.Repositories" />
+
+    <!-- Allow Use Cases to reference external adapters -->
+    <Allowed From="?.Data.Repositories" To="?.Adapter.Adapters" />
+</NsDepCopConfig>
