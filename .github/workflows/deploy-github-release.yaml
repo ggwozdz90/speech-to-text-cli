@@ -7,8 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
+      GITHUB_USERNAME: ${{ github.repository_owner }}
 
     steps:
       - name: Checkout code
