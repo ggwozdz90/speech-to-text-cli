@@ -21,5 +21,14 @@
   "dictionaryDefinitions": [],
   "dictionaries": ["workspace"],
   "noConfigSearch": true,
-  "ignoreWords": ["paket", "IDISP", "healthcheck"]
+  "ignoreWords": [
+    "paket",
+    "commitlintrc",
+    "Meziantou",
+    "Roslynator",
+    "nsdepcop",
+    "Versionize",
+    "IDISP",
+    "healthcheck"
+  ]
 }

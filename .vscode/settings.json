@@ -1,24 +1,18 @@
 {
-  "[csharp]": {
-    "editor.defaultFormatter": "csharpier.csharpier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
-  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
-  "dotnet-test-explorer.testProjectPath": "Tests",
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
   "files.exclude": {
     "**/.vs": true,
     "**/bin": true,
-    "**/obj": true
+    "**/obj": true,
+    "**/paket-files": true,
+    "**/.paket": true,
+    "**/node_modules": true,
+    "**/packages": true
   },
-  "editor.formatOnSave": true,
-  "editor.rulers": [120],
-  "github.copilot.chat.generateTests.codeLens": true,
+  "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
+  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
+  "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
   "github.copilot.chat.testGeneration.instructions": [
     {
       "file": ".github/copilot-instructions/copilot-test-instructions.md"
@@ -29,10 +23,22 @@
       "file": ".github/copilot-instructions/copilot-commit-instructions.md"
     }
   ],
+  "github.copilot.chat.reviewSelection.instructions": [
+    {
+      "file": ".github/copilot-instructions/copilot-code-and-review-instructions.md"
+    }
+  ],
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": ".github/copilot-instructions/copilot-code-and-review-instructions.md"
+    }
+  ],
+  "github.copilot.chat.generateTests.codeLens": true,
   "github.copilot.enable": {
     "*": true,
     "yaml": true,
     "plaintext": true,
-    "markdown": true
+    "markdown": true,
+    "json": true
   }
 }

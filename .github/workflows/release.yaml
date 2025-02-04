@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
+  release:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
@@ -57,5 +57,5 @@ jobs:
           git merge --no-ff main -m "chore(release): merge main into develop"
           git push origin develop
 
-      - name: Trigger deploy source code and windows exe workflow
+      - name: Trigger deploy github release
         run: gh workflow run deploy-github-release.yaml --ref v$RELEASE_VERSION

@@ -1,107 +1,79 @@
-# Best Practices and C# Testing Principles
+# C# Testing Guidelines for GitHub Copilot
 
-1. **Test Naming**:
-   - Use descriptive names for test methods that clearly indicate what is being tested.
-   - Follow a clear pattern, such as `Test_Functionality_Scenario`.
-
-2. **Given-When-Then Structure**:
-   - Structure your tests using the Given-When-Then format.
-     - **Given**: Set up the initial context or state.
-     - **When**: Execute the action or method being tested.
-     - **Then**: Assert the expected outcome.
-
-3. **Use of Fixtures**:
-   - Utilize NUnit fixtures to set up any necessary configurations, dependencies, or mock objects.
-
-4. **Mocking**:
-   - Use NSubstitute or similar libraries to mock external dependencies and functions.
-
-5. **Assertions**:
-   - Use FluentAssertions for more readable and expressive assertions.
-
-## Coverage of Class Code
-
-- Ensure that the tests cover the main functionality of the class or method being tested.
-- Include tests for:
-  - **Success Scenarios**: Verify that the method behaves as expected under normal conditions.
-  - **Failure Scenarios**: Verify that the method handles errors and exceptions gracefully.
-  - **Edge Cases**: Test boundary conditions and unusual inputs.
-- Avoid redundant tests that do not add value or test the same functionality multiple times.
-
-## Workarounds and Code Quality
-
-- Avoid workarounds or anti-patterns in the test code.
-- Ensure that the test code is straightforward and readable.
-
-## Example Test Code
+## Naming Convention
 
 ```csharp
-using System.IO.Abstractions;
-using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using NUnit.Framework;
-using SpeechToTextCli.Application.UseCases;
-using SpeechToTextCli.Domain.ErrorCodes;
-using SpeechToTextCli.Domain.Services;
-using SpeechToTextApiClient.Domain.Exceptions;
+MethodName_Scenario_ExpectedResult
 
-namespace SpeechToTextCli.Tests.Application.UseCases;
+Examples:
+- GetUser_WithValidId_ReturnsUser
+- SaveData_WhenDatabaseError_ThrowsException
+```
+
+## Tools Usage
+
+- **NUnit**: Test framework
+- **NSubstitute**: For mocking (`Substitute.For<T>()`)
+- **FluentAssertions**: For assertions (`result.Should().Be()`)
+- **System.IO.Abstractions.TestingHelpers**: For file system mocking
+
+## Common Scenarios Reference
+
+Check these aspects when writing tests:
+
+- Validation logic
+- Error handling
+- External dependencies
+- Async operations
+- Resource cleanup
+- Test coverage
+
+## Required Test Cases
+
+1. Success path
+2. Error handling
+3. Edge cases (null, empty, invalid data)
+4. Async operations
+5. Dependencies behavior
+
+## Test Structure
+
+```csharp
+using System.IO.Abstractions.TestingHelpers;
+using Example.Data.Repositories;
+using FluentAssertions;
+using NUnit.Framework;
+
+namespace Example.Tests.Data.Repositories;
 
 [TestFixture]
-internal sealed class GenerateSrtUseCaseTest
+public class FileRepositoryTests
 {
-    private ILogger<GenerateSrtUseCase> logger;
-    private ISrtGenerationService srtGenerationService;
-    private IFileInfo file;
-    private GenerateSrtUseCase useCase;
+    private MockFileSystem mockFileSystem = null!;
+    private FileRepository fileRepository = null!;
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
-        logger = Substitute.For<ILogger<GenerateSrtUseCase>>();
-        srtGenerationService = Substitute.For<ISrtGenerationService>();
-        file = Substitute.For<IFileInfo>();
-        file.FullName.Returns("testfile.txt");
-        useCase = new GenerateSrtUseCase(logger, srtGenerationService);
+        mockFileSystem = new MockFileSystem();
+        fileRepository = new FileRepository(mockFileSystem);
     }
 
     [Test]
-    public async Task InvokeAsync_ShouldReturnSuccess_WhenNoExceptionOccursAsync()
+    public void GetFileSize_WhenFileExists_ShouldReturnFileSize()
     {
         // Given
-        const string SourceLanguage = "en";
+        var filePath = @"C:\test\file.txt";
+        var fileContent = "Hello, world!";
+        var expectedFileSize = fileContent.Length;
+
+        mockFileSystem.AddFile(filePath, new MockFileData(fileContent));
 
         // When
-        var result = await useCase.InvokeAsync(file, SourceLanguage).ConfigureAwait(false);
+        var result = fileRepository.GetFileSize(filePath);
 
         // Then
-        result.Should().Be(ErrorCode.Success);
-        await srtGenerationService.Received(1).GenerateSrtAsync(file.FullName, SourceLanguage).ConfigureAwait(false);
-    }
-
-   [Test]
-    public async Task InvokeAsync_ShouldReturnNetworkError_WhenNetworkExceptionOccursAsync()
-    {
-        // Given
-        const string SourceLanguage = "en";
-        srtGenerationService.GenerateSrtAsync(file.FullName, SourceLanguage).ThrowsAsync(new NetworkException());
-
-        // When
-        var result = await useCase.InvokeAsync(file, SourceLanguage).ConfigureAwait(false);
-
-        // Then
-        result.Should().Be(ErrorCode.NetworkError);
-        logger
-            .Received(1)
-            .Log(
-                Arg.Is<LogLevel>(level => level == LogLevel.Error),
-                Arg.Any<EventId>(),
-                Arg.Is<object>(entry => entry.ToString() == "Network error occurred."),
-                Arg.Any<NetworkException>(),
-                Arg.Any<Func<object?, Exception?, string>>()
-            );
+        result.Should().Be(expectedFileSize);
     }
 }
 ```

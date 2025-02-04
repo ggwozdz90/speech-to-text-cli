@@ -1,8 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo 'Validating files'
+echo 'Validating build and test results'
 
 dotnet husky run --group pre-push-operations
 
-echo 'Completed validation of files'
+echo 'Completed validation of build and test results'
