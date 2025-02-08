@@ -4,6 +4,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <Version>0.1.0</Version>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>

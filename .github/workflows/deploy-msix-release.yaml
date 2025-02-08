@@ -1,0 +1,60 @@
+name: deploy-msix-release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-github-release:
+    runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
+      GITHUB_USERNAME: ${{ github.repository_owner }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
+      - name: Build
+        run: dotnet build
+
+      - name: Decode and save certificate
+        run: |
+          $certBytes = [Convert]::FromBase64String("${{ secrets.CODE_SIGNING_CERTIFICATE }}")
+          $certPath = Join-Path -Path $env:RUNNER_TEMP -ChildPath "SpeechToTextCli.pfx"
+          [IO.File]::WriteAllBytes($certPath, $certBytes)
+          echo "CERTIFICATE_PATH=$certPath" | Out-File -FilePath $env:GITHUB_ENV -Append
+        shell: pwsh
+
+      - name: Build MSIX
+        run: |
+          msbuild .\msix\SpeechToTextCliMsix\SpeechToTextCliMsix.wapproj `
+            /p:Configuration=Release `
+            /p:Platform=x64 `
+            /p:PackageCertificateKeyFile=$env:CERTIFICATE_PATH `
+            /p:PackageCertificatePassword=${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}
+        shell: pwsh
+
+      - name: Prepare publish directory
+        run: |
+          New-Item -ItemType Directory -Force -Path ".\publish"
+          Copy-Item -Path ".\msix\SpeechToTextCliMsix\AppPackages\*\*.msix" -Destination ".\publish"
+          Copy-Item -Path ".\msix\cert\*.cer" -Destination ".\publish"
+          Copy-Item -Path ".\msix\scripts\*.ps1" -Destination ".\publish"
+          Copy-Item -Path ".\msix\scripts\README.md" -Destination ".\publish"
+          Compress-Archive -Path ".\publish\*" -DestinationPath ".\publish\SpeechToTextCli-Install.zip"
+
+      - name: Verify publish directory
+        run: dir publish\*

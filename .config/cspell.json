@@ -29,6 +29,7 @@
     "nsdepcop",
     "Versionize",
     "IDISP",
-    "healthcheck"
+    "healthcheck",
+    "msix"
   ]
 }
