@@ -51,8 +51,23 @@ jobs:
       - name: Run CSpell
         run: npx cspell "**/*.{md,txt,json,yaml,cs}" --config .config/cspell.json
 
-      - name: Build
+      - name: Build .NET
         run: dotnet build
 
-      - name: Test
+      - name: Test .NET
         run: dotnet test
+
+  check-cpp:
+    runs-on: windows-latest
+    needs: check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Build VCXProj
+        run: msbuild src/SpeechToTextContextMenu/SpeechToTextContextMenu.vcxproj /p:Configuration=Release
