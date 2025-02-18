@@ -67,3 +67,6 @@ jobs:
 
       - name: Trigger deploy github release
         run: gh workflow run deploy-github-release.yaml --ref v$RELEASE_VERSION
+
+      - name: Trigger deploy msix release
+        run: gh workflow run deploy-msix-release.yaml --ref v$RELEASE_VERSION

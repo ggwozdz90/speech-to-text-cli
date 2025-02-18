@@ -44,6 +44,7 @@ jobs:
       - name: Build MSIX
         run: |
           msbuild .\msix\SpeechToTextCliMsix\SpeechToTextCliMsix.wapproj `
+            -restore:True `
             /p:Configuration=Release `
             /p:Platform=x64 `
             /p:PackageCertificateKeyFile=$env:CERTIFICATE_PATH `
@@ -57,7 +58,16 @@ jobs:
           Copy-Item -Path ".\msix\cert\*.cer" -Destination ".\publish"
           Copy-Item -Path ".\msix\scripts\*.ps1" -Destination ".\publish"
           Copy-Item -Path ".\msix\scripts\README.md" -Destination ".\publish"
-          Compress-Archive -Path ".\publish\*" -DestinationPath ".\publish\SpeechToTextCli-Install.zip"
 
-      - name: Verify publish directory
-        run: dir publish\*
+      - name: Zip MSIX
+        run: |
+          New-Item -ItemType Directory -Force -Path ".\release"
+          Compress-Archive -Path ".\publish\*" -DestinationPath ".\release\speech-to-text-cli-msix.zip"
+        shell: pwsh
+
+      - name: Deploy GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          token: ${{ secrets.REPOSITORY_TOKEN }}
+          body_path: CHANGELOG.md

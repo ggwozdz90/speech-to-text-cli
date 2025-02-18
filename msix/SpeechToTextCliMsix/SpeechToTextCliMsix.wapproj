@@ -32,7 +32,8 @@
     <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <NoWarn>$(NoWarn);NU1702</NoWarn>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <NoWarn>NU1701;NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\..\src\SpeechToTextCli\SpeechToTextCli.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
