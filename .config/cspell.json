@@ -11,7 +11,8 @@
     "packages",
     "cspell.json",
     "**/bin/**",
-    "**/obj/**"
+    "**/obj/**",
+    "**/BundleArtifacts/**"
   ],
   "flagWords": [
     "blacklist: denylist",

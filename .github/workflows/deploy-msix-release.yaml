@@ -27,7 +27,10 @@ jobs:
       - name: Restore .NET tools
         run: dotnet tool restore
 
-      - name: Build
+      - name: Build C++
+        run: msbuild .\src\SpeechToTextContextMenu\SpeechToTextContextMenu.vcxproj /p:Configuration=Release
+
+      - name: Build .NET
         run: dotnet build
 
       - name: Decode and save certificate

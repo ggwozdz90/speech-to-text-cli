@@ -77,6 +77,17 @@ Based on the [C# Project Template](https://github.com/ggwozdz90/csharp-project-t
   - Automatic changelog generation
   - GitHub release deployment in [`deploy-github-release.yaml`](../.github/workflows/deploy-github-release.yaml)
 
+### MSIX Installer Generation
+
+- Generates an MSIX installer signed with a self-signed certificate.
+- The certificate is securely retrieved from GitHub Secrets during CI and used to sign the installer.
+- The installer is generated and signed automatically during the release process.
+
+### Shell Extensions
+
+- Utilizes Windows Shell Extensions to add new commands to the context menu.
+- Allows users to run the CLI directly from the Windows UI by right-clicking on a file and selecting the desired command.
+
 ## Getting Started
 
 1. Clone the repository:
@@ -268,6 +279,8 @@ Based on the [C# Project Template](https://github.com/ggwozdz90/csharp-project-t
     - [Code Style Tools](#code-style-tools)
     - [Version Management](#version-management)
     - [GitHub Actions Workflows](#github-actions-workflows)
+    - [MSIX Installer Generation](#msix-installer-generation)
+    - [Shell Extensions](#shell-extensions)
   - [Getting Started](#getting-started)
   - [Paket Quick Reference](#paket-quick-reference)
   - [Husky.NET Quick Reference](#huskynet-quick-reference)
