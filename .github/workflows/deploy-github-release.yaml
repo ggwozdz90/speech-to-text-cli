@@ -1,13 +1,10 @@
 name: deploy-github-release
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
   workflow_dispatch:
 
 jobs:
-  check:
+  deploy-github-release:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
@@ -24,6 +21,9 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
       - name: Create EXE
         run: |
           dotnet publish src/SpeechToTextCli/SpeechToTextCli.csproj \
@@ -38,7 +38,7 @@ jobs:
       - name: Zip EXE
         run: |
           mkdir -p release
-          zip -r release/speech-to-text-cli-exe.zip publish/
+          zip -r -j release/speech-to-text-cli-exe.zip publish/
 
       - name: Deploy GitHub Release
         uses: softprops/action-gh-release@v2

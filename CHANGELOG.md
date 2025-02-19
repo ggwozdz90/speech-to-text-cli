@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/ggwozdz90/speech-to-text-cli/releases/tag/v0.2.0) (2025-02-19)
+
+### Features
+
+* add MSIX deployment workflow and trigger ([3f68df1](https://www.github.com/ggwozdz90/speech-to-text-cli/commit/3f68df1cf454031fa917bae5d027b54616d4c43f))
+* add MSIX packaging and installation scripts ([4d05c67](https://www.github.com/ggwozdz90/speech-to-text-cli/commit/4d05c6799b7d754e25ff554924e9e0f4d3afd3fb))
+* implement SpeechToTextContextMenu DLL and related files ([9427b7b](https://www.github.com/ggwozdz90/speech-to-text-cli/commit/9427b7b8c4eb78aa250ee3a1c505093ed77860eb))
+* update base address and add timeout settings in appsettings.json ([4584341](https://www.github.com/ggwozdz90/speech-to-text-cli/commit/4584341ad82020a65fd3046a799bd565833106d1))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/ggwozdz90/speech-to-text-cli/releases/tag/v0.1.0) (2025-02-02)
 

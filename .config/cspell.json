@@ -11,7 +11,8 @@
     "packages",
     "cspell.json",
     "**/bin/**",
-    "**/obj/**"
+    "**/obj/**",
+    "**/BundleArtifacts/**"
   ],
   "flagWords": [
     "blacklist: denylist",
@@ -21,5 +22,15 @@
   "dictionaryDefinitions": [],
   "dictionaries": ["workspace"],
   "noConfigSearch": true,
-  "ignoreWords": ["paket", "IDISP", "healthcheck"]
+  "ignoreWords": [
+    "paket",
+    "commitlintrc",
+    "Meziantou",
+    "Roslynator",
+    "nsdepcop",
+    "Versionize",
+    "IDISP",
+    "healthcheck",
+    "msix"
+  ]
 }

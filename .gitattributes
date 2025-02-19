@@ -4,3 +4,11 @@
 
 # Force CRLF line endings for all text files
 * text eol=crlf
+
+# Exclude binary files from line ending conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.ico binary

@@ -12,26 +12,19 @@
         "detailed",
         "--severity",
         "info"
-      ],
-      "include": ["**/*.cs"]
+      ]
     },
     {
       "name": "csharpier",
       "group": "pre-commit-operations",
       "command": "dotnet",
-      "args": ["csharpier", ".", "--loglevel", "debug"]
+      "args": ["csharpier", ".", "--check", "--loglevel", "debug"]
     },
     {
       "name": "prettier",
       "group": "pre-commit-operations",
       "command": "npx",
-      "args": [
-        "prettier",
-        "**/*.{json,yaml}",
-        "--write",
-        "--log-level",
-        "debug"
-      ]
+      "args": ["prettier", "**/*.{json,yaml}", "--check", "--log-level", "log"]
     },
     {
       "name": "markdownlint",
@@ -55,7 +48,12 @@
       "name": "cspell",
       "group": "pre-commit-operations",
       "command": "npx",
-      "args": ["cspell", "**/*.{md,txt,cs,csproj,json,yaml}"]
+      "args": [
+        "cspell",
+        "**/*.{md,txt,json,yaml,cs}",
+        "--config",
+        ".config/cspell.json"
+      ]
     },
     {
       "name": "dotnet build",
@@ -73,7 +71,14 @@
       "name": "commitlint",
       "group": "commit-msg-operations",
       "command": "npx",
-      "args": ["commitlint", "--edit", "${args}", "--verbose"]
+      "args": [
+        "commitlint",
+        "--edit",
+        "${args}",
+        "--verbose",
+        "--config",
+        ".config/.commitlintrc.json"
+      ]
     }
   ]
 }

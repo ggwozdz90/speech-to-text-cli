@@ -34,13 +34,13 @@ jobs:
         run: npm install
 
       - name: Validate commit messages
-        run: npx commitlint --from=origin/main --to=HEAD
+        run: npx commitlint --from=origin/main --to=HEAD --verbose --config .config/.commitlintrc.json
 
       - name: Format .NET code
         run: dotnet format --verify-no-changes --verbosity detailed --severity info
 
       - name: Run CSharpier
-        run: dotnet csharpier . --loglevel debug
+        run: dotnet csharpier . --check --loglevel debug
 
       - name: Run Prettier
         run: npx prettier "**/*.{json,yaml}" --check --log-level debug
@@ -49,10 +49,25 @@ jobs:
         run: npx markdownlint . --dot --ignore node_modules --ignore packages --ignore CHANGELOG.md --disable MD013
 
       - name: Run CSpell
-        run: npx cspell "**/*.{md,txt,cs,csproj,json,yaml}"
+        run: npx cspell "**/*.{md,txt,json,yaml,cs}" --config .config/cspell.json
 
-      - name: Build
+      - name: Build .NET
         run: dotnet build
 
-      - name: Test
+      - name: Test .NET
         run: dotnet test
+
+  check-cpp:
+    runs-on: windows-latest
+    needs: check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Build VCXProj
+        run: msbuild src/SpeechToTextContextMenu/SpeechToTextContextMenu.vcxproj /p:Configuration=Release

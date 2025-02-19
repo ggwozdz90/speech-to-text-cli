@@ -1,8 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo 'Validating files'
+echo 'Validating code style and formatting'
 
 dotnet husky run --group pre-commit-operations
 
-echo 'Completed validation of files'
+echo 'Completed validation of code style and formatting'
