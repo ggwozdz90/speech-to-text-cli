@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://www.github.com/ggwozdz90/speech-to-text-cli/releases/tag/v0.2.1) (2025-02-20)
+
+### Bug Fixes
+
+* update cer file used to sign the msix package ([99232d5](https://www.github.com/ggwozdz90/speech-to-text-cli/commit/99232d5c32b3d63c5f61db374b0c2f8241bda58a))
+
 <a name="0.2.0"></a>
 ## [0.2.0](https://www.github.com/ggwozdz90/speech-to-text-cli/releases/tag/v0.2.0) (2025-02-19)
 
