@@ -57,7 +57,7 @@ jobs:
       - name: Test .NET
         run: dotnet test
 
-  check-cpp:
+  check-windows:
     runs-on: windows-latest
     needs: check
     steps:
@@ -68,6 +68,22 @@ jobs:
 
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v1
+
+      - name: Verify CER file
+        run: |
+          $cerFilePath = ".\msix\cert\SpeechToTextCli.cer"
+          if (Test-Path $cerFilePath) {
+            Write-Output "CER file found at $cerFilePath"
+            try {
+              $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($cerFilePath)
+              Write-Output "CER file is valid and ready for packaging."
+            } catch {
+              Write-Error "CER file is corrupted or invalid. Error details: $_"
+            }
+          } else {
+            Write-Error "CER file is missing."
+          }
+        shell: pwsh
 
       - name: Build VCXProj
         run: msbuild src/SpeechToTextContextMenu/SpeechToTextContextMenu.vcxproj /p:Configuration=Release

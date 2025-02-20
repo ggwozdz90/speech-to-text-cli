@@ -39,7 +39,7 @@
     <ProjectGuid>{77a9b069-6c3f-46c7-af2b-e30517c23ccb}</ProjectGuid>
     <RootNamespace>SpeechToTextContextMenu</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <Version>0.2.0.0</Version>
+    <Version>0.2.1.0</Version>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
