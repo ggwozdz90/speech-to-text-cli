@@ -32,6 +32,9 @@
     "IDISP",
     "healthcheck",
     "msix",
-    "appsettings"
+    "appsettings",
+    "wapproj",
+    "msbuild",
+    "pwsh"
   ]
 }

@@ -82,6 +82,7 @@ Based on the [C# Project Template](https://github.com/ggwozdz90/csharp-project-t
 - Generates an MSIX installer signed with a self-signed certificate.
 - The certificate is securely retrieved from GitHub Secrets during CI and used to sign the installer.
 - The installer is generated and signed automatically during the release process.
+- For detailed instructions, refer to the [Installer and Certificate Creation Guide](./INSTALLER-AND-CERTIFICATE-CREATION-GUIDE.md).
 
 ### Shell Extensions
 
